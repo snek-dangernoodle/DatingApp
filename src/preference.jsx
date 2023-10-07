@@ -5,7 +5,11 @@ const PrefPage = () => {
     <div className='pref-container'>
       <div className='title'>Placeholder for Title</div>
       <div className='quote'> Whatchu want in your potential shawty?</div>
-      <form>
+      <form
+        className='submit-form'
+        action='http://localhost:3000/search'
+        method='GET'
+      >
         <label for='preference1'>
           Preference 1:
           <input name='preference1' id='pref-box-1' />
@@ -18,6 +22,7 @@ const PrefPage = () => {
           Preference 3:
           <input name='preference3' id='pref-box-3' />
         </label>
+        <button className='primary' type='submit'></button>
       </form>
     </div>
   );
