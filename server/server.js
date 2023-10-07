@@ -51,6 +51,43 @@ app.post("/register", async (req, res) => {
   }
 });
 
+//LOGIN  --> test if user exists (for now, later check for password)
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Check if the user exists in the database
+    const user = await pool.query("SELECT * FROM users WHERE username = $1", [
+      username,
+    ]);
+
+    if (user.rows.length === 0) {
+      return res.status(401).json({ message: "Authentication failed" });
+    } else {
+      res.json(user.rows[0]);
+    }
+  } catch (error) {
+    console.error("Error during login:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Searching for users with specific interests
+app.get("/search", async (req, res) => {
+  const { userId, interest } = req.query;
+
+  try {
+    const usersWithInterests = await pool.query(
+      "SELECT users.username FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1",
+      [interest]
+    );
+    res.json(usersWithInterests.rows);
+  } catch (error) {
+    console.error("Error during search:", error);
+    res.status(500).json({ error: "Search failed" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
