@@ -1,47 +1,40 @@
-import React, { useState } from 'react'
-
-
+import React, { useState } from 'react';
 
 const Login = () => {
+  // const [username, setUsername] = useState('');
+  // const [displayedUsername, setDisplayedUsername] = useState('');
+  // const [password, setPassword] = useState('');
 
-  const [username, setUsername] = useState('');
-  const [displayedUsername, setDisplayedUsername] = useState('');
-  const [password, setPassword] = useState('');
-  
-  const handleInputChange = (event) => {
-    setUsername(event.target.value);
-  }
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  }
+  // const handleInputChange = (event) => {
+  //   setUsername(event.target.value);
+  // }
+  // const handlePasswordChange = (event) => {
+  //   setPassword(event.target.value);
+  // }
 
-  const handleButtonClick = () => {
-    setUsername(username);
-  }
+  // const handleButtonClick = () => {
+  //   setUsername(username);
+  // }
   return (
     <div>
       <h1>Log in to your profile </h1>
       <input
-        type="text"
-        placeholder="username"
-        value={username}
-        onChange={handlePasswordChange}
+        type='text'
+        placeholder='username'
+        // value={username}
+        // onChange={handlePasswordChange}
       />
       <input
-      type="password"
-      placeholder="Password"
-      value={password}
-      onChange={handleInputChange}
-    />
-    <button id="login" onClick={setUsername}>Log in</button>
+        type='password'
+        placeholder='Password'
+        // value={password}
+        // onChange={handleInputChange}
+      />
+      <button id='login'>Log in</button>
     </div>
-      
- 
   );
-    
-  };
-  export default Login;
-  
+};
+export default Login;
 
 // // Redux actions (actions.js)
 // export const setUsername = (username) => ({

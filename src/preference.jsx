@@ -1,6 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PrefPage = () => {
+  // let navigate = useNavigate();
+  // const routeChange = () => {
+  //   let path = 'http://localhost:8080/matches';
+  //   navigate(path);
+  // };
+
   return (
     <div className='pref-container'>
       <div className='title'>Placeholder for Title</div>
