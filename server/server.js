@@ -81,7 +81,14 @@ app.get('/search', async (req, res) => {
       'SELECT users.username FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
       [interest]
     );
-    res.json(usersWithInterests.rows);
+
+    console.log(usersWithInterests.rows);
+
+    if (usersWithInterests.rows.length === 0) {
+      return res.status(404).json({ message: "No users found" });
+    } else {
+      res.json(usersWithInterests.rows);
+    }
   } catch (error) {
     console.error('Error during search:', error);
     res.status(500).json({ error: 'Search failed' });
