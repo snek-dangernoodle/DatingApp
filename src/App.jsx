@@ -1,13 +1,12 @@
-import React from 'react' 
-import ReactDOM from 'react-dom'
-import Login from './components/Login.js'
-
+import React from "react";
+import ReactDOM from "react-dom";
+import Login from "./components/Login.js";
 
 const App = () => {
   return (
     <div>
-      <h1>Dating App</h1>
-      <Login/>
+      <h1>Findr</h1>
+      <Login />
     </div>
   );
 };
