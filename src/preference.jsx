@@ -14,7 +14,7 @@ const PrefPage = () => {
           Preference 2:
           <input name='preference2' id='pref-box-2' />
         </label>
-        <label fr='preference3'>
+        <label for='preference3'>
           Preference 3:
           <input name='preference3' id='pref-box-3' />
         </label>
