@@ -17,7 +17,7 @@ const Login = () => {
     setPassword(event.target.value);
   }
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     try{
       const response = await fetch('/login', {
         method: 'POST',
@@ -32,11 +32,12 @@ const Login = () => {
       } else {
         console.error("Username or password not found")
       }
-      catch(error) {
+    }
+      catch (error) {
         console.error("Error during login", error);
       }
     }
-  };
+  
   return (
     <div>
       <h1>Log in to your profile </h1>
@@ -52,7 +53,7 @@ const Login = () => {
       value={password}
       onChange={handlePasswordChange}
     />
-    <button id="login" onClick={setUsername}>Log in</button>
+    <button id="login" onClick={handleLogin}>Log in</button>
     </div>
       
  
