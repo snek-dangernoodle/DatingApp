@@ -1,23 +1,42 @@
 import React, { useState } from 'react'
-
+import App from './App.jsx';
+import ReactDOM from 'react-dom';
+import { store } from './app/store';
+import { Provider } from 'react-redux';
 
 
 const Login = () => {
 
   const [username, setUsername] = useState('');
-  const [displayedUsername, setDisplayedUsername] = useState('');
   const [password, setPassword] = useState('');
   
-  const handleInputChange = (event) => {
+  const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   }
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   }
 
-  const handleButtonClick = () => {
-    setUsername(username);
-  }
+  const handleLogin = () => {
+    try{
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {'content-Type': 'application/json'},
+        body: JSON.stringify({
+          username: username,
+          password: password
+        }),
+      });
+      if (response.ok){
+        const userData = await response.json();
+      } else {
+        console.error("Username or password not found")
+      }
+      catch(error) {
+        console.error("Error during login", error);
+      }
+    }
+  };
   return (
     <div>
       <h1>Log in to your profile </h1>
@@ -25,13 +44,13 @@ const Login = () => {
         type="text"
         placeholder="username"
         value={username}
-        onChange={handlePasswordChange}
+        onChange={handleUsernameChange}
       />
       <input
       type="password"
       placeholder="Password"
       value={password}
-      onChange={handleInputChange}
+      onChange={handlePasswordChange}
     />
     <button id="login" onClick={setUsername}>Log in</button>
     </div>
