@@ -1,10 +1,17 @@
+import React from 'react' 
 import React from 'react';
 import ReactDOM from 'react-dom'
 
 
 
 const App = () => {
-  return <h1>Dating App</h1>;
+  return  (
+    <div>
+      <h1>Dating App</h1>
+      <h3>Login: </h3>
+    </div>
+);
+
 };
 
 ReactDOM.render(<App />, document.getElementById('root'))
