@@ -1,6 +1,25 @@
-import React from "react";
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateState } from '../src/features/profileState/profileStateSlice';
 
 const PrefPage = () => {
+  // const currentState = useSelector((state) => state.profileState.)
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   fetchDatabase();
+  // }, []);
+
+  // const fetchDatabase = async () => {
+  //   const res = await axios.get('http://localhost:3000/search');
+  // };
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    console.log('hello');
+    const result = await fetch('./storage.txt');
+    console.log(result);
+  };
   return (
     <div className="pref-container">
       <div className="title">Findr</div>
@@ -26,6 +45,9 @@ const PrefPage = () => {
           Match Me!
         </button>
       </form>
+      <button className='secondary' onClick={handleClick}>
+        Show me the hoes
+      </button>
     </div>
   );
 };
