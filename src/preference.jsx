@@ -1,13 +1,25 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { updateState } from '../src/features/profileState/profileStateSlice';
 
 const PrefPage = () => {
-  // let navigate = useNavigate();
-  // const routeChange = () => {
-  //   let path = 'http://localhost:8080/matches';
-  //   navigate(path);
+  // const currentState = useSelector((state) => state.profileState.)
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   fetchDatabase();
+  // }, []);
+
+  // const fetchDatabase = async () => {
+  //   const res = await axios.get('http://localhost:3000/search');
   // };
 
+  const handleClick = async (e) => {
+    e.preventDefault();
+    console.log('hello');
+    const result = await fetch('./storage.txt');
+    console.log(result);
+  };
   return (
     <div className='pref-container'>
       <div className='title'>Placeholder for Title</div>
@@ -31,6 +43,9 @@ const PrefPage = () => {
         </label>
         <button className='primary' type='submit'></button>
       </form>
+      <button className='secondary' onClick={handleClick}>
+        Show me the hoes
+      </button>
     </div>
   );
 };
