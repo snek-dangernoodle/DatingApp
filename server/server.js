@@ -202,7 +202,7 @@ app.get('/search', async (req, res) => {
 
         // If the user already exists in userInterests, update their interests
         if (userInterests[username]) {
-          userInterests[username].push(interest);
+          userInterests[username].push(" , " + interest);
         } else {
           // If the user doesn't exist, create  new entry
           userInterests[username] = [interest];
