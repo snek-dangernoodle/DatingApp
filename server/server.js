@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 const pool = new Pool({
   connectionString:
@@ -119,7 +120,7 @@ app.get('/search', async (req, res) => {
     } else {
       const arr = Array.from(output);
       console.log('hello');
-      fs.writeFileSync('storage.txt', JSON.stringify(arr));
+      fs.writeFileSync('./server/public/storage.txt', JSON.stringify(arr));
       res.redirect('http://localhost:8080/');
     }
   } catch (error) {
