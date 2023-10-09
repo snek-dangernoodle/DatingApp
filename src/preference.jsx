@@ -64,12 +64,12 @@ const PrefPage = () => {
         Show me the hoes
       </button>
       <div>
-        {currentState.map((el) => (
+        {/* {currentState.map((el) => (
           <div>
             {el.username}
             {el.interest}
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );
