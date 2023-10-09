@@ -1,8 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  username: '',
-  interests: [],
+  value: [],
 };
 
 export const profileStateSlice = createSlice({
@@ -10,11 +9,18 @@ export const profileStateSlice = createSlice({
   initialState,
   reducers: {
     updateState: (state, action) => {
-      state.username = action.payload.username;
-      state.interests = action.payload.interests;
+      //Setting the state to the the input which is the result from preference.jsx @line 25
+      state.value = action.payload;
     },
   },
 });
 
+export const updateStateAsync = (givenState) => async (dispatch) => {
+
+  //Async dispatch update State
+  const result = await dispatch(updateState(givenState));
+};
+
 export const { updateState } = profileStateSlice.actions;
+export const selectState = (state) => state.updateState.value;
 export default profileStateSlice.reducer;

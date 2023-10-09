@@ -1,40 +1,69 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { setAuthenticated } from './loginStateSlice';
+import { useHistory } from 'react-router-dom';
+import { setUsername, setPassword, setAuthenticated } from './feature/profileState/loginSlice'
 
 const Login = () => {
-  // const [username, setUsername] = useState('');
-  // const [displayedUsername, setDisplayedUsername] = useState('');
-  // const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  // const handleInputChange = (event) => {
-  //   setUsername(event.target.value);
-  // }
-  // const handlePasswordChange = (event) => {
-  //   setPassword(event.target.value);
-  // }
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const loginEndpoint = 'http://localhost:3000/login';
+    const username = e.target.username.value;
+    const password = e.target.password.value;
+    try {
+        const response = await fetch(loginEndpoint, {
+        method: 'POST',
+        body: JSON.stringify({ username, password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-  // const handleButtonClick = () => {
-  //   setUsername(username);
-  // }
+      if (response.status === 401) {
+        dispatch(setAuthenticated(false));
+      } else if (response.ok) {
+        dispatch(setAuthenticated(true));
+        history.push('/preference.jsx');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
+  };
+
   return (
-    <div>
-      <h1>Log in to your profile </h1>
-      <input
-        type='text'
-        placeholder='username'
-        // value={username}
-        // onChange={handlePasswordChange}
-      />
-      <input
-        type='password'
-        placeholder='Password'
-        // value={password}
-        // onChange={handleInputChange}
-      />
-      <button id='login'>Log in</button>
+    <div classname='Login-container'>
+      <div>
+        <h1>Log in to your profile </h1>
+        <form className='submit-form' onSubmit={handleFormSubmit}>
+          <input type='text' name='username' placeholder='Username' />
+          <input type='password' name='password' placeholder='Password' />
+          <button id='login' className='primary' type='submit'>
+            Log in to find your match
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
 export default Login;
+
+// const [username, setUsername] = useState('');
+// const [displayedUsername, setDisplayedUsername] = useState('');
+// const [password, setPassword] = useState('');
+
+// const handleInputChange = (event) => {
+//   setUsername(event.target.value);
+// }
+// const handlePasswordChange = (event) => {
+//   setPassword(event.target.value);
+// }
+
+// const handleButtonClick = () => {
+//   setUsername(username);
+// }
 
 // // Redux actions (actions.js)
 // export const setUsername = (username) => ({

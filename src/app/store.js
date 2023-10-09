@@ -3,6 +3,7 @@ import stateReducer from '../features/profileState/profileStateSlice';
 
 export const store = configureStore({
   reducer: {
-    updateState: stateReducer,
+    //All the reducers are stored here
+    profileState: stateReducer,
   },
 });

@@ -1,21 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import prefPage from './preference.jsx';
-import matchPage from './components/Matches.jsx';
-import Login from './components/Login.jsx';
+import Login from '/components/Login.jsx'
+import "./styles.scss";
+import ReactDOM from "react-dom";
+import { loginStore } from './app/store';
+import { Provider } from 'react-redux'
 
-const App = () => {
-  return (
-    <div>
-      <Router>
-        <Routes>
-          <Route path='/' element={<Login />} />
-          <Route exact path='/pref' element={<prefPage />} />
-          <Route path='/matches' element={<matchPage />} />
-        </Routes>
-      </Router>
-    </div>
-  );
-};
+ReactDOM.render(
+  <Provider loginStore={loginStore}>
+    <Login />
+  </Provider>,
+);
 
-export default App;
+
+
