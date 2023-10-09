@@ -1,17 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Home from './preference.jsx';
-import matchPage from './components/Matches.jsx';
-import Login from './components/Login.jsx';
-import { store } from './app/store';
+import Login from '/components/Login.jsx'
+import "./styles.scss";
+import ReactDOM from "react-dom";
+import { loginStore } from './app/store';
+import { Provider } from 'react-redux'
 
-const App = () => {
-  return (
-    <div>
-      <h1>Findr</h1>
-      <Login />
-    </div>
-  );
-};
+ReactDOM.render(
+  <Provider loginStore={loginStore}>
+    <Login />
+  </Provider>,
+);
 
-export default App;
+
+

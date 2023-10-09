@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import { setAuthenticated } from './loginStateSlice';
 import { useHistory } from 'react-router-dom';
+import { setUsername, setPassword, setAuthenticated } from './feature/profileState/loginSlice'
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -9,14 +10,11 @@ const Login = () => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
     const loginEndpoint = 'http://localhost:3000/login';
-
     const username = e.target.username.value;
     const password = e.target.password.value;
-
     try {
-      const response = await fetch(loginEndpoint, {
+        const response = await fetch(loginEndpoint, {
         method: 'POST',
         body: JSON.stringify({ username, password }),
         headers: {
@@ -43,7 +41,7 @@ const Login = () => {
           <input type='text' name='username' placeholder='Username' />
           <input type='password' name='password' placeholder='Password' />
           <button id='login' className='primary' type='submit'>
-            Log in
+            Log in to find your match
           </button>
         </form>
       </div>
