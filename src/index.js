@@ -9,5 +9,5 @@ ReactDOM.render(
   <Provider store={store}>
     <PrefPage />
   </Provider>,
-  document.getElementById("root")
+   document.getElementById('root')
 );
