@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   updateState,
   selectState,
   updateStateAsync,
-} from "../src/features/profileState/profileStateSlice";
-import store from "./app/store.js";
-import { current } from "@reduxjs/toolkit";
+} from '../src/features/profileState/profileStateSlice';
+import store from './app/store.js';
+import { current } from '@reduxjs/toolkit';
 
 const PrefPage = () => {
   const currentState = useSelector(selectState);
@@ -14,7 +14,7 @@ const PrefPage = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const response = await fetch("http://localhost:8080/storage.txt");
+    const response = await fetch('http://localhost:8080/storage.txt');
     const result = await response.text();
     dispatch(updateStateAsync(result));
     console.log(currentState);
