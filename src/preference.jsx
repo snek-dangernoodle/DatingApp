@@ -21,46 +21,46 @@ const PrefPage = () => {
   };
 
   return (
-    <div className="pref-container">
-      <div className="title">Findr</div>
-      <div className="quote">
+    <div className='pref-container'>
+      <div className='title'>Findr</div>
+      <div className='quote'>
         <div>Whatchu want in your potential shawty? </div>
         Choose up to three interests:
       </div>
       <form
-        className="submit-form"
-        action="http://localhost:3000/search"
-        method="GET"
+        className='submit-form'
+        action='http://localhost:3000/search'
+        method='GET'
       >
-        <label for="preference1">
+        <label for='preference1'>
           <input
-            name="preference1"
-            class="prefbox"
-            placeholder="Your first interest..."
-            id="pref-box-1"
+            name='preference1'
+            class='prefbox'
+            placeholder='Your first interest...'
+            id='pref-box-1'
           />
         </label>
-        <label for="preference2">
+        <label for='preference2'>
           <input
-            name="preference2"
-            class="prefbox"
-            placeholder="Your second interest..."
-            id="pref-box-2"
+            name='preference2'
+            class='prefbox'
+            placeholder='Your second interest...'
+            id='pref-box-2'
           />
         </label>
-        <label for="preference3">
+        <label for='preference3'>
           <input
-            name="preference3"
-            class="prefbox"
-            placeholder="Your third interest..."
-            id="pref-box-3"
+            name='preference3'
+            class='prefbox'
+            placeholder='Your third interest...'
+            id='pref-box-3'
           />
         </label>
-        <button className="primary" type="submit">
+        <button className='primary' type='submit'>
           Match Me!
         </button>
       </form>
-      <button className="secondary" onClick={handleClick}>
+      <button className='secondary' onClick={handleClick}>
         Show me the hoes
       </button>
       <div>
