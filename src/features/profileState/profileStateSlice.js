@@ -11,15 +11,13 @@ export const profileStateSlice = createSlice({
     updateState: (state, action) => {
       state.value = action.payload;
       // state.interests = action.payload;
-      console.log('state value:', state.value);
+      // console.log('state value:', state.value);
     },
   },
 });
 
-export const updateStateAsync = (givenState) => (dispatch) => {
-  setTimeout(() => {
-    dispatch(updateState(givenState));
-  }, 1000);
+export const updateStateAsync = (givenState) => async (dispatch) => {
+  const result = await dispatch(updateState(givenState));
 };
 
 export const { updateState } = profileStateSlice.actions;
