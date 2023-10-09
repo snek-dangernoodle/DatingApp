@@ -5,21 +5,26 @@ import {
   selectState,
   updateStateAsync,
 } from '../src/features/profileState/profileStateSlice';
-import { current } from '@reduxjs/toolkit';
+
 import Profiles from './components/profiles.jsx';
 
 const PrefPage = () => {
+
+  //Grabbing the state and setting up dispatch
   const currentState = useSelector((state) => state.profileState.value);
   const dispatch = useDispatch();
 
+  //handles click for the "Show me my potential matches" button
   const handleClick = async (e) => {
+
+    //Prevents refresh
     e.preventDefault();
+
+    //Grabs response from storage.txt in server/public folder
     const response = await fetch('http://localhost:8080/storage.txt');
     const result = await response.json();
     dispatch(updateStateAsync(result));
-    // const newState = store.getState().profileState.value;
-    // updatedState = newState;
-    // console.log(updatedState);
+    //console.log to test currentState
     console.log([currentState]);
   };
 
