@@ -1,6 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  updateState,
+  selectState,
+  updateStateAsync,
+} from "../src/features/profileState/profileStateSlice";
+import store from "./app/store.js";
+import { current } from "@reduxjs/toolkit";
 
 const PrefPage = () => {
+  const currentState = useSelector(selectState);
+  const dispatch = useDispatch();
+
+  const handleClick = async (e) => {
+    e.preventDefault();
+    const response = await fetch("http://localhost:8080/storage.txt");
+    const result = await response.text();
+    dispatch(updateStateAsync(result));
+    console.log(currentState);
+  };
+
   return (
     <div className="pref-container">
       <div className="title">Findr</div>
@@ -37,12 +56,21 @@ const PrefPage = () => {
             id="pref-box-3"
           />
         </label>
-        <div style={{ whiteSpace: "pre" }}>
-          <button className="primary" type="submit">
-            Match Me!
-          </button>
-        </div>
+        <button className="primary" type="submit">
+          Match Me!
+        </button>
       </form>
+      <button className="secondary" onClick={handleClick}>
+        Show me the hoes
+      </button>
+      <div>
+        {currentState.map((el) => (
+          <div>
+            {el.username}
+            {el.interest}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

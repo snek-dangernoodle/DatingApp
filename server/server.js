@@ -3,12 +3,15 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const { Pool } = require('pg');
 const e = require('express');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 const pool = new Pool({
   connectionString:
@@ -72,48 +75,53 @@ app.post('/login', async (req, res) => {
   }
 });
 
+app.get('/matches', async (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../src/components/Matches.jsx'));
+});
+
 // Searching for users with specific interests
 app.get('/search', async (req, res) => {
   const { preference1, preference2, preference3 } = req.query;
-  console.log("query:",req.query)
-  const interestArr = [preference1,preference2,preference3];
-  
-  const output = new Set()
+  // console.log('query:', req.query);
+  const interestArr = [preference1, preference2, preference3];
+
+  const output = new Set();
   try {
     const usersWithInterests = await pool.query(
-      'SELECT users.username FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
+      'SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
       [preference1]
     );
     const usersWithInterests2 = await pool.query(
-      'SELECT users.username FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
+      'SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
       [preference2]
     );
     // console.log("TWO",usersWithInterests2.rows)
     const usersWithInterests3 = await pool.query(
-      'SELECT users.username FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
+      'SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
       [preference3]
     );
     // console.log("THREE",usersWithInterests3.rows)
 
-    for(let i=0;i<usersWithInterests.rows.length;i++){
-      output.add(usersWithInterests.rows[i].username)
+    for (let i = 0; i < usersWithInterests.rows.length; i++) {
+      output.add(usersWithInterests.rows[i]);
     }
-    console.log(output)
-    for(let i=0;i<usersWithInterests2.rows.length;i++){
-      output.add(usersWithInterests2.rows[i].username)
+    // console.log(output);
+    for (let i = 0; i < usersWithInterests2.rows.length; i++) {
+      output.add(usersWithInterests2.rows[i]);
     }
-    console.log('2nd out',output)
-    for(let i=0;i<usersWithInterests3.rows.length;i++){
-      output.add(usersWithInterests3.rows[i].username)
+    // console.log('2nd out', output);
+    for (let i = 0; i < usersWithInterests3.rows.length; i++) {
+      output.add(usersWithInterests3.rows[i]);
     }
-    console.log('3rd out', output)
-  
-
+    // console.log('3rd out', output);
+    console.log('hi');
     if (output.length === 0) {
-      return res.status(404).json({ message: "No users found" });
+      return res.status(404).json({ message: 'No users found' });
     } else {
-      const arr = Array.from(output)
-      res.json(arr);
+      const arr = Array.from(output);
+      console.log('hello');
+      fs.writeFileSync('./server/public/storage.txt', JSON.stringify(arr));
+      res.redirect('http://localhost:8080/');
     }
   } catch (error) {
     console.error('Error during search:', error);
