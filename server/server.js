@@ -1,35 +1,35 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const { Pool } = require("pg");
-const e = require("express");
-const path = require("path");
-const fs = require("fs");
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const { Pool } = require('pg');
+const e = require('express');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, 'public')));
 
 const pool = new Pool({
   connectionString:
-    "postgres://wpfxyyjg:Ysiz0SrjbiiYT-YDm9yArEns6x9RXQG3@peanut.db.elephantsql.com/wpfxyyjg",
+    'postgres://wpfxyyjg:Ysiz0SrjbiiYT-YDm9yArEns6x9RXQG3@peanut.db.elephantsql.com/wpfxyyjg',
 });
 
-app.get("/", (req, res) => {
-  res.send("Welcome to Dating App"); // You can customize this response
+app.get('/', (req, res) => {
+  res.send('Welcome to Dating App'); // You can customize this response
 });
 
 //register USER
-app.post("/register", async (req, res) => {
+app.post('/register', async (req, res) => {
   const { username, password, personalInterests } = req.body;
 
   try {
     // Insert the user into the 'users' table
     const newUser = await pool.query(
-      "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id",
+      'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id',
       [username, password]
     );
 
@@ -40,43 +40,43 @@ app.post("/register", async (req, res) => {
     if (Array.isArray(personalInterests)) {
       for (const personalInterest of personalInterests) {
         await pool.query(
-          "INSERT INTO personal_interests (user_id, interest) VALUES ($1, $2)",
+          'INSERT INTO personal_interests (user_id, interest) VALUES ($1, $2)',
           [userId, personalInterest]
         );
       }
-      res.status(201).json({ message: "Registration successful" });
+      res.status(201).json({ message: 'Registration successful' });
     } else {
-      res.status(400).json({ error: "personalInterests should be an array" });
+      res.status(400).json({ error: 'personalInterests should be an array' });
     }
   } catch (error) {
-    console.error("Error during registration:", error);
-    res.status(500).json({ error: "Registration failed" });
+    console.error('Error during registration:', error);
+    res.status(500).json({ error: 'Registration failed' });
   }
 });
 
 //LOGIN  --> test if user exists (for now, later check for password)
-app.post("/login", async (req, res) => {
+app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
   try {
     // Check if the user exists in the database
-    const user = await pool.query("SELECT * FROM users WHERE username = $1", [
+    const user = await pool.query('SELECT * FROM users WHERE username = $1', [
       username,
     ]);
 
     if (user.rows.length === 0) {
-      return res.status(401).json({ message: "Authentication failed" });
+      return res.status(401).json({ message: 'Authentication failed' });
     } else {
       res.json(user.rows[0]);
     }
   } catch (error) {
-    console.error("Error during login:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 });
 
-app.get("/matches", async (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../src/components/Matches.jsx"));
+app.get('/matches', async (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../src/components/Matches.jsx'));
 });
 
 // Searching for users with specific interests
@@ -129,12 +129,12 @@ app.get("/matches", async (req, res) => {
 //   }
 // });
 
-app.get("/search", async (req, res) => {
+// app.get("/search", async (req, res) => {
 // app.get('/search', async (req, res) => {
 //   const { preference1, preference2, preference3 } = req.query;
 //   console.log("query:",req.query)
 //   const interestArr = [preference1,preference2,preference3];
-  
+
 //   const output = new Set()
 //   try {
 //     const usersWithInterests = await pool.query(
@@ -164,7 +164,6 @@ app.get("/search", async (req, res) => {
 //       output.add(usersWithInterests3.rows[i].username)
 //     }
 //     console.log('3rd out', output)
-  
 
 //     if (output.length === 0) {
 //       return res.status(404).json({ message: "No users found" });
@@ -178,7 +177,7 @@ app.get("/search", async (req, res) => {
 //   }
 // });
 
-app.get("/search", async (req, res) => {
+app.get('/search', async (req, res) => {
   const { preference1, preference2, preference3 } = req.query;
   const interestArr = [preference1, preference2, preference3];
 
@@ -190,7 +189,7 @@ app.get("/search", async (req, res) => {
     for (const preference of interestArr) {
       const usersWithInterest = await pool.query(
         //keep same query string we were using before ->
-        "SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1",
+        'SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
         [preference]
       );
 
@@ -222,16 +221,16 @@ app.get("/search", async (req, res) => {
     //RESPONSE
     //no users found check
     if (output.length === 0) {
-      return res.status(404).json({ message: "No users found" });
+      return res.status(404).json({ message: 'No users found' });
     } else {
       //if users found, we need to write output to storage.txt
-      fs.writeFileSync("./server/public/storage.txt", JSON.stringify(output));
-      res.redirect("http://localhost:8080/");
+      fs.writeFileSync('./server/public/storage.txt', JSON.stringify(output));
+      res.redirect('http://localhost:8080/');
       // res.status(200).send("Hi Hadrian");
     }
   } catch (error) {
-    console.error("Error during search:", error);
-    res.status(500).json({ error: "Search failed" });
+    console.error('Error during search:', error);
+    res.status(500).json({ error: 'Search failed' });
   }
 });
 
