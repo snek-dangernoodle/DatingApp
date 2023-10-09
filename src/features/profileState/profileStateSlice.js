@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: [{ username: 'Wei', interest: 'D4' }],
+  value: [],
 };
 
 export const profileStateSlice = createSlice({
@@ -9,17 +9,16 @@ export const profileStateSlice = createSlice({
   initialState,
   reducers: {
     updateState: (state, action) => {
+      //Setting the state to the the input which is the result from preference.jsx @line 25
       state.value = action.payload;
-      // state.interests = action.payload;
-      console.log('state value:', state.value);
     },
   },
 });
 
-export const updateStateAsync = (givenState) => (dispatch) => {
-  setTimeout(() => {
-    dispatch(updateState(givenState));
-  }, 1000);
+export const updateStateAsync = (givenState) => async (dispatch) => {
+
+  //Async dispatch update State
+  const result = await dispatch(updateState(givenState));
 };
 
 export const { updateState } = profileStateSlice.actions;

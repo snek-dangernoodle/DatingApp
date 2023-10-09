@@ -80,48 +80,153 @@ app.get('/matches', async (req, res) => {
 });
 
 // Searching for users with specific interests
+// app.get('/search', async (req, res) => {
+//   const { preference1, preference2, preference3 } = req.query;
+//   // console.log('query:', req.query);
+//   const interestArr = [preference1, preference2, preference3];
+
+//   const output = new Set();
+//   try {
+//     const usersWithInterests = await pool.query(
+//       'SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
+//       [preference1]
+//     );
+//     const usersWithInterests2 = await pool.query(
+//       'SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
+//       [preference2]
+//     );
+//     // console.log("TWO",usersWithInterests2.rows)
+//     const usersWithInterests3 = await pool.query(
+//       'SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
+//       [preference3]
+//     );
+//     // console.log("THREE",usersWithInterests3.rows)
+
+//     for (let i = 0; i < usersWithInterests.rows.length; i++) {
+//       output.add(usersWithInterests.rows[i]);
+//     }
+//     // console.log(output);
+//     for (let i = 0; i < usersWithInterests2.rows.length; i++) {
+//       output.add(usersWithInterests2.rows[i]);
+//     }
+//     // console.log('2nd out', output);
+//     for (let i = 0; i < usersWithInterests3.rows.length; i++) {
+//       output.add(usersWithInterests3.rows[i]);
+//     }
+//     // console.log('3rd out', output);
+//     console.log('hi');
+//     if (output.length === 0) {
+//       return res.status(404).json({ message: 'No users found' });
+//     } else {
+//       const arr = Array.from(output);
+//       console.log('hello');
+//       fs.writeFileSync('./server/public/storage.txt', JSON.stringify(arr));
+//       res.redirect('http://localhost:8080/');
+//     }
+//   } catch (error) {
+//     console.error('Error during search:', error);
+//     res.status(500).json({ error: 'Search failed' });
+//   }
+// });
+
+// app.get("/search", async (req, res) => {
+// app.get('/search', async (req, res) => {
+//   const { preference1, preference2, preference3 } = req.query;
+//   console.log("query:",req.query)
+//   const interestArr = [preference1,preference2,preference3];
+
+//   const output = new Set()
+//   try {
+//     const usersWithInterests = await pool.query(
+//       'SELECT users.username FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
+//       [preference1]
+//     );
+//     const usersWithInterests2 = await pool.query(
+//       'SELECT users.username FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
+//       [preference2]
+//     );
+//     // console.log("TWO",usersWithInterests2.rows)
+//     const usersWithInterests3 = await pool.query(
+//       'SELECT users.username FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
+//       [preference3]
+//     );
+//     // console.log("THREE",usersWithInterests3.rows)
+
+//     for(let i=0;i<usersWithInterests.rows.length;i++){
+//       output.add(usersWithInterests.rows[i].username)
+//     }
+//     console.log(output)
+//     for(let i=0;i<usersWithInterests2.rows.length;i++){
+//       output.add(usersWithInterests2.rows[i].username)
+//     }
+//     console.log('2nd out',output)
+//     for(let i=0;i<usersWithInterests3.rows.length;i++){
+//       output.add(usersWithInterests3.rows[i].username)
+//     }
+//     console.log('3rd out', output)
+
+//     if (output.length === 0) {
+//       return res.status(404).json({ message: "No users found" });
+//     } else {
+//       const arr = Array.from(output)
+//       res.json(arr);
+//     }
+//   } catch (error) {
+//     console.error('Error during search:', error);
+//     res.status(500).json({ error: 'Search failed' });
+//   }
+// });
+
 app.get('/search', async (req, res) => {
   const { preference1, preference2, preference3 } = req.query;
-  // console.log('query:', req.query);
   const interestArr = [preference1, preference2, preference3];
 
-  const output = new Set();
-  try {
-    const usersWithInterests = await pool.query(
-      'SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
-      [preference1]
-    );
-    const usersWithInterests2 = await pool.query(
-      'SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
-      [preference2]
-    );
-    // console.log("TWO",usersWithInterests2.rows)
-    const usersWithInterests3 = await pool.query(
-      'SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
-      [preference3]
-    );
-    // console.log("THREE",usersWithInterests3.rows)
+  // create object to store user interests
+  const userInterests = {};
 
-    for (let i = 0; i < usersWithInterests.rows.length; i++) {
-      output.add(usersWithInterests.rows[i]);
+  try {
+    // Fetch users with each interest -> take it one interest at a time ->
+    for (const preference of interestArr) {
+      const usersWithInterest = await pool.query(
+        //keep same query string we were using before ->
+        'SELECT users.username, personal_interests.interest FROM users JOIN personal_interests ON users.id = personal_interests.user_id WHERE personal_interests.interest = $1',
+        [preference]
+      );
+
+      // Iterate through the users with the current interest
+      for (const user of usersWithInterest.rows) {
+        //set username to user.username
+        const username = user.username;
+        //set interest to user.interest
+        const interest = user.interest;
+
+        // If the user already exists in userInterests, update their interests
+        if (userInterests[username]) {
+          userInterests[username].push(" , " + interest);
+        } else {
+          // If the user doesn't exist, create  new entry
+          userInterests[username] = [interest];
+        }
+      }
     }
-    // console.log(output);
-    for (let i = 0; i < usersWithInterests2.rows.length; i++) {
-      output.add(usersWithInterests2.rows[i]);
-    }
-    // console.log('2nd out', output);
-    for (let i = 0; i < usersWithInterests3.rows.length; i++) {
-      output.add(usersWithInterests3.rows[i]);
-    }
-    // console.log('3rd out', output);
-    console.log('hi');
+
+    // Convert userInterests object to an array for response, MAP username and interest
+    const output = Object.entries(userInterests).map(
+      ([username, interest]) => ({
+        username,
+        interest,
+      })
+    ); //output is now an array of objects; where usernam is username and interest is the array of interests
+
+    //RESPONSE
+    //no users found check
     if (output.length === 0) {
       return res.status(404).json({ message: 'No users found' });
     } else {
-      const arr = Array.from(output);
-      console.log('hello');
-      fs.writeFileSync('./server/public/storage.txt', JSON.stringify(arr));
+      //if users found, we need to write output to storage.txt
+      fs.writeFileSync('./server/public/storage.txt', JSON.stringify(output));
       res.redirect('http://localhost:8080/');
+      // res.status(200).send("Hi Hadrian");
     }
   } catch (error) {
     console.error('Error during search:', error);

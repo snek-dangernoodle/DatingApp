@@ -3,9 +3,7 @@ import stateReducer from '../features/profileState/profileStateSlice';
 
 export const store = configureStore({
   reducer: {
-    updateState: stateReducer,
-    // setUsername: stateReducer,
-    // setPassword: stateReducer,
-    // setAuthenticated: stateReducer,
+    //All the reducers are stored here
+    profileState: stateReducer,
   },
 });

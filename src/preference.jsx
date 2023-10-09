@@ -5,19 +5,27 @@ import {
   selectState,
   updateStateAsync,
 } from '../src/features/profileState/profileStateSlice';
-import store from './app/store.js';
-import { current } from '@reduxjs/toolkit';
+
+import Profiles from './components/profiles.jsx';
 
 const PrefPage = () => {
-  const currentState = useSelector(selectState);
+
+  //Grabbing the state and setting up dispatch
+  const currentState = useSelector((state) => state.profileState.value);
   const dispatch = useDispatch();
 
+  //handles click for the "Show me my potential matches" button
   const handleClick = async (e) => {
+
+    //Prevents refresh
     e.preventDefault();
+
+    //Grabs response from storage.txt in server/public folder
     const response = await fetch('http://localhost:8080/storage.txt');
-    const result = await response.text();
+    const result = await response.json();
     dispatch(updateStateAsync(result));
-    console.log(currentState);
+    //console.log to test currentState
+    console.log([currentState]);
   };
 
   return (
@@ -61,15 +69,12 @@ const PrefPage = () => {
         </button>
       </form>
       <button className='secondary' onClick={handleClick}>
-        Show me the hoes
+        Show me my potential matches
       </button>
-      <div>
-        {/* {currentState.map((el) => (
-          <div>
-            {el.username}
-            {el.interest}
-          </div>
-        ))} */}
+      <div className='profile-main-container'>
+        {currentState.map((profile, index) => (
+          <Profiles profile={currentState} index={index} />
+        ))}
       </div>
     </div>
   );
