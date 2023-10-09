@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: [],
+  value: [{ username: 'Wei', interest: 'D4' }],
 };
 
 export const profileStateSlice = createSlice({
@@ -16,5 +16,12 @@ export const profileStateSlice = createSlice({
   },
 });
 
+export const updateStateAsync = (givenState) => (dispatch) => {
+  setTimeout(() => {
+    dispatch(updateState(givenState));
+  }, 1000);
+};
+
 export const { updateState } = profileStateSlice.actions;
+export const selectState = (state) => state.updateState.value;
 export default profileStateSlice.reducer;
