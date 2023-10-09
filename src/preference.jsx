@@ -12,14 +12,25 @@ const PrefPage = () => {
   const currentState = useSelector((state) => state.profileState.value);
   const dispatch = useDispatch();
 
+  // let interestList = [];
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+
+  // const fetchData = async () => {
+  //   try {
+  //     interestList = await fetch('http://localhost:8080/interests');
+  //     console.log(interestList);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   const handleClick = async (e) => {
     e.preventDefault();
     const response = await fetch('http://localhost:8080/storage.txt');
     const result = await response.json();
     dispatch(updateStateAsync(result));
-    // const newState = store.getState().profileState.value;
-    // updatedState = newState;
-    // console.log(updatedState);
     console.log([currentState]);
   };
 
@@ -42,6 +53,18 @@ const PrefPage = () => {
             placeholder='Your first interest...'
             id='pref-box-1'
           />
+          {/* <select>
+            <option
+              for='preference1'
+              name='preference1'
+              value='select a interest'
+            >
+              Select an interest
+            </option>
+            {interestList.map((interest) => (
+              <option value={interest.interest}>{interest.interest}</option>
+            ))}
+          </select> */}
         </label>
         <label for='preference2'>
           <input
