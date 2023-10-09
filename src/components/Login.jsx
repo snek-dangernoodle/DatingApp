@@ -1,67 +1,69 @@
-import React, { useState } from 'react'
-import App from './App.jsx';
-import ReactDOM from 'react-dom';
-import { store } from './app/store';
-import { Provider } from 'react-redux';
-
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { setAuthenticated } from './loginStateSlice';
+import { useHistory } from 'react-router-dom';
+import { setUsername, setPassword, setAuthenticated } from './feature/profileState/loginSlice'
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  }
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  }
-
-  const handleLogin = async () => {
-    try{
-      const response = await fetch('/login', {
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    const loginEndpoint = 'http://localhost:3000/login';
+    const username = e.target.username.value;
+    const password = e.target.password.value;
+    try {
+        const response = await fetch(loginEndpoint, {
         method: 'POST',
-        headers: {'content-Type': 'application/json'},
-        body: JSON.stringify({
-          username: username,
-          password: password
-        }),
+        body: JSON.stringify({ username, password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
       });
-      if (response.ok){
-        const userData = await response.json();
-      } else {
-        console.error("Username or password not found")
+
+      if (response.status === 401) {
+        dispatch(setAuthenticated(false));
+      } else if (response.ok) {
+        dispatch(setAuthenticated(true));
+        history.push('/preference.jsx');
       }
+    } catch (error) {
+      console.error('Error during login:', error);
     }
-      catch (error) {
-        console.error("Error during login", error);
-      }
-    }
-  
-  return (
-    <div>
-      <h1>Log in to your profile </h1>
-      <input
-        type="text"
-        placeholder="username"
-        value={username}
-        onChange={handleUsernameChange}
-      />
-      <input
-      type="password"
-      placeholder="Password"
-      value={password}
-      onChange={handlePasswordChange}
-    />
-    <button id="login" onClick={handleLogin}>Log in</button>
-    </div>
-      
- 
-  );
-    
   };
-  export default Login;
-  
+
+  return (
+    <div classname='Login-container'>
+      <div>
+        <h1>Log in to your profile </h1>
+        <form className='submit-form' onSubmit={handleFormSubmit}>
+          <input type='text' name='username' placeholder='Username' />
+          <input type='password' name='password' placeholder='Password' />
+          <button id='login' className='primary' type='submit'>
+            Log in to find your match
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+};
+export default Login;
+
+// const [username, setUsername] = useState('');
+// const [displayedUsername, setDisplayedUsername] = useState('');
+// const [password, setPassword] = useState('');
+
+// const handleInputChange = (event) => {
+//   setUsername(event.target.value);
+// }
+// const handlePasswordChange = (event) => {
+//   setPassword(event.target.value);
+// }
+
+// const handleButtonClick = () => {
+//   setUsername(username);
+// }
 
 // // Redux actions (actions.js)
 // export const setUsername = (username) => ({

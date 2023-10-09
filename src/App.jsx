@@ -1,15 +1,15 @@
-import React from 'react' 
-import ReactDOM from 'react-dom'
-import Login from './components/Login.js'
+import React from 'react';
+import Login from '/components/Login.jsx'
+import "./styles.scss";
+import ReactDOM from "react-dom";
+import { loginStore } from './app/store';
+import { Provider } from 'react-redux'
+
+ReactDOM.render(
+  <Provider loginStore={loginStore}>
+    <Login />
+  </Provider>,
+);
 
 
-const App = () => {
-  return (
-    <div>
-      <h1>Dating App</h1>
-      <Login/>
-    </div>
-  );
-};
 
-export default App;
