@@ -84,6 +84,10 @@ app.get('/matches', async (req, res) => {
 //   console.log(interests.rows);
 // });
 
+app.get('/connect', async (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../src/SIKE.html'));
+});
+
 app.get('/search', async (req, res) => {
   const { preference1, preference2, preference3 } = req.query;
   const interestArr = [preference1, preference2, preference3];
@@ -109,7 +113,7 @@ app.get('/search', async (req, res) => {
 
         // If the user already exists in userInterests, update their interests
         if (userInterests[username]) {
-          userInterests[username].push(" , " + interest);
+          userInterests[username].push(' , ' + interest);
         } else {
           // If the user doesn't exist, create  new entry
           userInterests[username] = [interest];
