@@ -13,7 +13,7 @@ const PrefPage = () => {
   const [interests, setInterests] = useState([]);
   const [matches, setMatches] = useState(null);
   const [interestInput, setInterestInput] = useState('');
-  const [selectedInterests, setSelectedInterests] = useState([]);
+  const [selectedInterests, setSelectedInterests] = useState({});
   const [filteredInterests, setFilteredInterests] = useState([]);
 
   useEffect(() => {
@@ -98,11 +98,7 @@ const PrefPage = () => {
                 key={index}
                 onClick={() => {
                   setInterestInput(`${option.interest}`);
-                  let interestList = selectedInterests;
-                  interestList.push({
-                    id: option._id,
-                    interest: option.interest,
-                  });
+                  // let interestList = (...selectedInterest, option._id: option.interest);
                   setSelectedInterests(interestList);
                   setFilteredInterests([]);
                 }}
