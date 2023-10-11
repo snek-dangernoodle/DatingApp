@@ -5,6 +5,7 @@ const sessionController = {};
 sessionController.isLoggedIn = async (req, res, next) => {
   // cookie in req.cookie
   const cookie = req.cookie;
+  console.log('cookie:', cookie);
   try {
     const response = await Session.find({ cookieId: `${cookie}` });
     if (response) {
@@ -25,11 +26,15 @@ sessionController.isLoggedIn = async (req, res, next) => {
 sessionController.startSession = async (req, res, next) => {
   const id = res.locals.user;
   if (!res.locals.signedIn) {
+    console.log('no res locals signedIn')
     try {
       const session = await new Session({
         cookieId: `${id}`,
       });
       session.save();
+      console.log('session is saved');
+      res.cookie('user', `session_for_${id}`)
+      
       return next();
     } catch (error) {
       return next({

@@ -29,7 +29,7 @@ router.post(
   sessionController.isLoggedIn,
   sessionController.startSession,
   (req, res) => {
-    res.status(201).json({ message: 'Login successful' });
+    res.status(201).json({ message: `res.cookie ${res.cookie}` });
   }
 );
 
