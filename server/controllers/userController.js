@@ -1,23 +1,25 @@
 const { Pool } = require('pg');
 require('dotenv').config();
-
-
 const pool = new Pool({
-  connectionString:
-    process.env.POSTGRES,
+  connectionString: process.env.POSTGRES,
 });
+
 //User middleware
 
 exports.registerUser = async (req, res, next) => {
   console.log('in registerUser');
-  const { username, password } = req.body;
+  const { username } = req.body;
+  const password = res.locals.pass;
   try {
-    await pool.query(
-      'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING user_id',
+    const id = await pool.query(
+      'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id',
       [username, password]
     );
+    res.locals.user = id.rows[0].id;
+    console.log(res.locals.user);
     return next();
   } catch (error) {
+    console.log(error);
     return next({
       log: 'Express error handler caught middleware error in userController.registerUser',
       status: 500,
@@ -28,7 +30,7 @@ exports.registerUser = async (req, res, next) => {
 
 exports.loginUser = async (req, res, next) => {
   const { username, password } = req.body;
-
+  res.locals.plainPass = password;
   try {
     // Check if the user exists in the database
     const user = await pool.query('SELECT * FROM users WHERE username = $1', [
@@ -39,16 +41,19 @@ exports.loginUser = async (req, res, next) => {
       return next({
         log: 'User authentication failed due to incorrect input',
         status: 400,
-        message: {err: 'Username or Password is incorrect'}
-      })
+        message: { err: 'Username or Password is incorrect' },
+      });
     } else {
-      res.json(user.rows[0]);
+      res.locals.hashPass = user.rows[0].password;
+      res.locals.user = user.rows[0].id;
+      return next();
     }
   } catch (error) {
+    console.log(error);
     return next({
       log: 'Express error handler caught middleware error in userController.loginUser',
       status: 500,
-      message: {err: 'Internal server error'}
+      message: { err: 'Internal server error' },
     });
   }
 };
