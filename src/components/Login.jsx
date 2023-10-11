@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -14,10 +14,20 @@ const Login = () => {
   const [auth, setAuth] = useState('login');
   const [matchPassword, setMatchPassword] = useState(true);
   const [entry, setEntry] = useState(true);
-
+  // const [isLoggedin, setIsLoggedin] = useState(null)
   const navigate = useNavigate();
 
   // console.log(auth)
+
+  useEffect(() => {
+    async function verifySession() {
+      const response = await fetch('/verifySession')
+      if (response.status === 200) {
+        navigate('/dashboard')
+      };
+    };
+    verifySession();
+  }, []);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +54,7 @@ const Login = () => {
           },
         });
         if (response.status === 201) {
-          navigate('/home')
+          navigate('/dashboard')
         } else {
           setEntry(false);
         };
