@@ -1,4 +1,4 @@
-
 module.exports = () => {
-    global.testServer = require('./server/server.js')
+    global.testServer = require('./server/server')
+
 }
