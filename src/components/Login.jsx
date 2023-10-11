@@ -13,19 +13,24 @@ const Login = () => {
 
   const [auth, setAuth] = useState('login');
   const [matchPassword, setMatchPassword] = useState(true);
+  const [entry, setEntry] = useState(true);
+
   const navigate = useNavigate();
 
-  console.log(auth)
+  // console.log(auth)
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const loginEndpoint = `/database/${auth}`;
-    console.log(loginEndpoint)
+    // console.log(loginEndpoint)
     const username = e.target.username.value;
     const password = e.target.password.value;
-    const confirmPassword = e.target.confirmPassword.value;
+    let confirmPassword;
+    if (auth === 'signup') {
+      confirmPassword = e.target.confirmPassword.value;
+    }
     
-    if (password === confirmPassword) {
+    if (password === confirmPassword || auth === 'login') {
 
       try {
           const response = await fetch(loginEndpoint, {
@@ -40,16 +45,13 @@ const Login = () => {
         });
         if (response.status === 201) {
           navigate('/home')
-        }
-        // if (response.status === 401) { 
-        //   dispatch(setAuthenticated(false));
-        // } else if (response.ok) {
-        //   dispatch(setAuthenticated(true));
-      
-        // }
-      } catch (error) {
-        console.error('Error during login:', error);
-      }
+        } else {
+          setEntry(false);
+        };
+      } catch (err) {
+        console.error('Error during login:', err);
+
+      };
     } else {
       setMatchPassword(false)
     }
@@ -71,12 +73,12 @@ const Login = () => {
              Sign Up
           </button>
           {!matchPassword && (
-            <p id='passwordMatch'>Password and confirm password does not match</p>
+            <p className='passwordMatch'>Password and confirm password does not match</p>
           )}
         </form>
-        <button id='login_page' className='primary' onClick={() => {setAuth('login')}}>Back to Login</button> 
+        <button className='primary' onClick={() => {setAuth('login')}}>Back to Login</button> 
       </div>
-      <Link to='/home'>home page</Link>
+      <Link to='/dashboard'>dashboard</Link>
     </div>
     )
   }
@@ -94,10 +96,13 @@ const Login = () => {
           <button id='login' className='primary' type='submit' >
              Log in to find your match
           </button>
+          {!entry && (
+            <p className='passwordMatch'>Username or password is incorrect</p>
+          )}
         </form>
-        <button id='sign_up_page' className='primary' onClick={() => {setAuth('signup')}}>Sign Up</button> 
+        <button className='primary' onClick={() => {setAuth('signup')}}>Sign Up</button> 
       </div>
-      <Link to='/home'>home page</Link>
+      <Link to='/dashboard'>dashboard</Link>
     </div>
   );
 };

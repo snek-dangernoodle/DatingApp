@@ -17,7 +17,7 @@ export default function App() {
     <main>
       <Routes>
 
-        <Route path='/home' element={
+        <Route path='/dashboard' element={
           <Provider store={store}>
             <PrefPage />
           </Provider>
