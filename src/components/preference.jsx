@@ -24,9 +24,7 @@ const PrefPage = () => {
         });
         if (response.status === 200) {
           const data = await response.json();
-          console.log(data);
           setInterests(data);
-          console.log('interets:', interests);
         }
       } catch (err) {
         console.log('error in fetching interests');
@@ -34,6 +32,7 @@ const PrefPage = () => {
     }
     getInterests();
   }, []);
+
 
   const handleInterestInputChange = (e) => {
     const value = e.target.value;
@@ -43,15 +42,11 @@ const PrefPage = () => {
 
   const filterInterestOptions = (value) => {
     const filtered = interests
-      .filter((interest) => {
-        interest.interest.toLowerCase().include(value.toLowerCase());
-      })
+      .filter((interest) => interest.interest.toLowerCase().includes(value.toLowerCase()))
       .slice(0, 10);
     setFilteredInterests(filtered);
   };
-  //Grabbing the state and setting up dispatch
-  const currentState = useSelector((state) => state.profileState.value);
-  const dispatch = useDispatch();
+
 
   // saves user preferences into database
   const submitPreference = async (e) => {
@@ -59,22 +54,24 @@ const PrefPage = () => {
     e.preventDefault();
 
     // interests from drop down here***
+    setInterests(['hi']);
+    console.log(interests);
 
     // formating information to pass into the body
-    const userInterest = {};
+    // const userInterest = {};
 
-    // updates the user's preferences
-    try {
-      const response = await fetch('/database/update', {
-        method: 'POST',
-        body: JSON.stringify(userInterest),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    } catch (err) {
-      console.error('Error during login:', err);
-    }
+    // // updates the user's preferences
+    // try {
+    //   const response = await fetch('/database/update', {
+    //     method: 'POST',
+    //     body: JSON.stringify(userInterest),
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //   });
+    // } catch (err) {
+    //   console.error('Error during login:', err);
+    // }
   };
 
   return (
@@ -119,11 +116,6 @@ const PrefPage = () => {
       <button className='secondary' type='button' onClick={submitPreference}>
         Show me my potential matches
       </button>
-      <div className='profile-main-container'>
-        {currentState.map((profile, index) => (
-          <Profiles key={index} profile={currentState} index={index} />
-        ))}
-      </div>
     </div>
   );
 };
