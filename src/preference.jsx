@@ -25,14 +25,13 @@ const PrefPage = () => {
     const result = await response.json();
     dispatch(updateStateAsync(result));
     //console.log to test currentState
-    console.log([currentState]);
   };
 
   return (
     <div className='pref-container'>
       <div className='title'>Findr</div>
       <div className='quote'>
-        <div>Whatchu want in your potential shawty? </div>
+        <div>Whatchu want in your potential shawty?</div>
         Choose up to three interests:
       </div>
       <form
@@ -40,26 +39,26 @@ const PrefPage = () => {
         action='http://localhost:3000/search'
         method='GET'
       >
-        <label for='preference1'>
+        <label htmlFor='preference1'>
           <input
             name='preference1'
-            class='prefbox'
+            className='prefbox'
             placeholder='Your first interest...'
             id='pref-box-1'
           />
         </label>
-        <label for='preference2'>
+        <label htmlFor='preference2'>
           <input
             name='preference2'
-            class='prefbox'
+            className='prefbox'
             placeholder='Your second interest...'
             id='pref-box-2'
           />
         </label>
-        <label for='preference3'>
+        <label htmlFor='preference3'>
           <input
             name='preference3'
-            class='prefbox'
+            className='prefbox'
             placeholder='Your third interest...'
             id='pref-box-3'
           />
@@ -73,7 +72,7 @@ const PrefPage = () => {
       </button>
       <div className='profile-main-container'>
         {currentState.map((profile, index) => (
-          <Profiles profile={currentState} index={index} />
+          <Profiles key={index} profile={currentState} index={index} />
         ))}
       </div>
     </div>

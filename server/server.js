@@ -37,6 +37,6 @@ app.use((err, req, res, next) => {
   return res.status(errorStatus).send(res.locals.message);
 });
 
-app.listen(PORT, () => {
+module.exports = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
