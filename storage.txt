@@ -11,6 +11,26 @@
 
     ]
 
+
+DROP TABLE users;
+DROP TABLE interests;
+CREATE TABLE interests (
+interest_id INT GENERATED ALWAYS AS IDENTITY,
+interest VARCHAR,
+PRIMARY KEY(interest_id));
+CREATE TABLE users (
+_id INT GENERATED ALWAYS AS IDENTITY,
+username VARCHAR UNIQUE,
+password VARCHAR,
+interest1 INT,
+interest2 INT,
+interest3 INT, 
+FOREIGN KEY(interest1) REFERENCES interests(interest_id),
+FOREIGN KEY(interest2) REFERENCES interests(interest_id),
+FOREIGN KEY(interest3) REFERENCES interests(interest_id),
+PRIMARY KEY(_id));
+
+
     
 // Searching for users with specific interests
 // app.get('/search', async (req, res) => {
