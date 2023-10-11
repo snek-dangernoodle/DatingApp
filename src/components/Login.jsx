@@ -13,6 +13,7 @@ const Login = () => {
 
   const [auth, setAuth] = useState('login');
   const [matchPassword, setMatchPassword] = useState(true);
+
   const navigate = useNavigate();
 
   console.log(auth)
@@ -23,9 +24,12 @@ const Login = () => {
     console.log(loginEndpoint)
     const username = e.target.username.value;
     const password = e.target.password.value;
-    const confirmPassword = e.target.confirmPassword.value;
+    let confirmPassword;
+    if (auth === 'signup') {
+      confirmPassword = e.target.confirmPassword.value;
+    }
     
-    if (password === confirmPassword) {
+    if (password === confirmPassword || auth === 'login') {
 
       try {
           const response = await fetch(loginEndpoint, {
