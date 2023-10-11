@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 require('dotenv').config();
 
+
 console.log(process.env.POSTGRES);
 
 mongoose
