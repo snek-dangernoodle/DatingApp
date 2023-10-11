@@ -60,6 +60,20 @@ exports.loginUser = async (req, res, next) => {
   }
 };
 
+exports.getInterests = async (req, res, next) => {
+  try {
+    const interests = await pool.query('SELECT * FROM interests');
+    res.locals.interests = interests.rows;
+    return next();
+  } catch (error) {
+    return next({
+      log: 'Express error handler caught middleware error in userController.getInterests',
+      status: 400,
+      message: { err: 'Error!' },
+    });
+  }
+};
+
 // backend recieves object
 exports.updateInterests = async (req, res, next) => {
   const { personalInterestObject } = req.body;

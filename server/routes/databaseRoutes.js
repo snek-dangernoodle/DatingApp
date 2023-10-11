@@ -4,9 +4,9 @@ const encryptionController = require('../controllers/encryptionController');
 const sessionController = require('../controllers/sessionController');
 const router = express.Router();
 
-router.get('/',userController.getUsers, (req, res) => {
-  res.status(200).json({message: 'Recieved users'})
-})
+router.get('/interests', userController.getInterests, (req, res) => {
+  res.status(200).json(res.locals.interests);
+});
 
 router.post(
   '/signup',
@@ -18,14 +18,15 @@ router.post(
   }
 );
 
-router.post('/update',
+router.post(
+  '/update',
   sessionController.isLoggedIn,
   userController.updateInterests,
   userController.searchUsers,
   (req, res) => {
-    res.status(200).send(res.locals.matches)
+    res.status(200).json(res.locals.matches);
   }
-)
+);
 
 router.post(
   '/login',
