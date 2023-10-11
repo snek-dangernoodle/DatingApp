@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom'
 import {
   updateState,
   selectState,
   updateStateAsync,
-} from '../src/features/profileState/profileStateSlice';
+} from '../features/profileState/profileStateSlice';
 
-import Profiles from './components/profiles.jsx';
+import Profiles from './profiles.jsx';
 
 const PrefPage = () => {
 
@@ -21,7 +22,7 @@ const PrefPage = () => {
     e.preventDefault();
 
     //Grabs response from storage.txt in server/public folder
-    const response = await fetch('http://localhost:8080/storage.txt');
+    const response = await fetch('/storage.txt');
     const result = await response.json();
     dispatch(updateStateAsync(result));
     //console.log to test currentState
@@ -36,7 +37,7 @@ const PrefPage = () => {
       </div>
       <form
         className='submit-form'
-        action='http://localhost:3000/search'
+        action='/search'
         method='GET'
       >
         <label htmlFor='preference1'>
@@ -75,6 +76,7 @@ const PrefPage = () => {
           <Profiles key={index} profile={currentState} index={index} />
         ))}
       </div>
+      <Link to='/'>login page</Link>
     </div>
   );
 };

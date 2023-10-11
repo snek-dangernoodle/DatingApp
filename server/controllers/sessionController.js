@@ -11,7 +11,7 @@ sessionController.isLoggedIn = async (req, res, next) => {
       res.locals.signedIn = true;
       return next();
     } else {
-      res.redirect(200, '/signup');
+      res.redirect(200, '/');
     }
   } catch (error) {
     return next({
