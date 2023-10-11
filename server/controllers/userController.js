@@ -46,7 +46,8 @@ exports.loginUser = async (req, res, next) => {
       });
     } else {
       res.locals.hashPass = user.rows[0].password;
-      res.locals.user = user.rows[0].id;
+      res.locals.user = user.rows[0]._id;
+      console.log('res.locals in loginUser:', res.locals)
       return next();
     }
   } catch (error) {
@@ -73,13 +74,14 @@ exports.loginUser = async (req, res, next) => {
 
 // backend recieves object
 exports.updateInterests = async (req, res, next) => {
-  const { _id, personalInterestObject } = req.body;
+  const { personalInterestObject } = req.body;
+  const _id = req.cookie
   const interestArr = Object.keys(personalInterestObject)
 // {_id: 4, personalInterestObject: {2: a, 3: b, 1: swimming}}
   // query SELECT * FROM 
   try {
     await pool.query(
-      'UPDATE users SET interest1 = $1, interest2 = $2, interest = $3 WHERE _id = $4' ,
+      'UPDATE users SET interest1 = $1, interest2 = $2, interest3 = $3 WHERE _id = $4' ,
       [interestArr, _id]
     );
     return next();
