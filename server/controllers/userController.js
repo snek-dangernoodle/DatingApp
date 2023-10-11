@@ -8,14 +8,15 @@ const pool = new Pool({
 
 exports.registerUser = async (req, res, next) => {
   console.log('in registerUser');
+
   const { username } = req.body;
   const password = res.locals.pass;
   try {
     const id = await pool.query(
-      'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id',
+      'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING _id',
       [username, password]
     );
-    res.locals.user = id.rows[0].id;
+    res.locals.user = id.rows[0]._id;
     console.log(res.locals.user);
     return next();
   } catch (error) {
@@ -58,10 +59,42 @@ exports.loginUser = async (req, res, next) => {
   }
 };
 
-// //     if (Array.isArray(personalInterests)) {
-//   for (const personalInterest of personalInterests) {
-//     await pool.query(
-//       'INSERT INTO personal_interests (user_id, interest) VALUES ($1, $2)',
-//       [userId, personalInterest]
-//     );
-//   }
+
+/** _id | interest
+ *    1 | climbing
+ *    2 | cards
+ *    3 | coding
+ * 
+ * 
+ */
+
+// QUERY SELECT * FROM interests
+// tell frontend to set key value pairs with interest_id = key, interest = value
+
+// backend recieves object
+exports.updateInterests = async (req, res, next) => {
+  const { _id, personalInterestObject } = req.body;
+  const interestArr = Object.keys(personalInterestObject)
+// {_id: 4, personalInterestObject: {2: a, 3: b, 1: swimming}}
+  // query SELECT * FROM 
+  try {
+    await pool.query(
+      'UPDATE users SET interest1 = $1, interest2 = $2, interest = $3 WHERE _id = $4' ,
+      [interestArr, _id]
+    );
+    return next();
+  } catch (error) {
+    return next({
+      log: 'Express error handler caught middleware error in userController.updateInterests',
+      status: 400,
+      message: { err: 'Error! Please select 3 interests' },
+    });
+  } 
+};
+
+exports.searchUsers = async (req, res, next) => {
+  console.log('searching...');
+  const matches = await pool.query('SELECT username,interest1, interest2, interest3 FROM users WHERE interest1 IN ($1, $2, $3) or interest2 IN ($1, $2, $3) or interest3 IN ($1, $2, $3);', [interestArr])
+  res.locals.matches = matches.rows
+  return next();
+};

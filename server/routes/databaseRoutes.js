@@ -5,7 +5,7 @@ const sessionController = require('../controllers/sessionController');
 const router = express.Router();
 
 router.post(
-  '/register',
+  '/signup',
   encryptionController.passEncrypt,
   userController.registerUser,
   sessionController.startSession,
@@ -13,6 +13,14 @@ router.post(
     res.status(201).json({ message: 'Registration successful' });
   }
 );
+
+router.post('/update',
+  sessionController.isLoggedIn,
+  userController.updateInterests,
+  (req, res) => {
+    res.status(202).json({message: "Interest Update Successful"})
+  }
+)
 
 router.post(
   '/login',
@@ -25,4 +33,12 @@ router.post(
   }
 );
 
+router.get(
+  '/search',
+  sessionController.isLoggedIn,
+  userController.searchUsers,
+  (req, res) => {
+    res.status(200).json({ message: 'Search Successful!' });
+  }
+);
 module.exports = router;
