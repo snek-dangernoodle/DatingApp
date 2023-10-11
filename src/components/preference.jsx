@@ -37,18 +37,54 @@ const PrefPage = () => {
       </div>
       <form
         className='submit-form'
-        action='/search'
-        method='GET'
       >
-        <label htmlFor='preference1'>
-          <input
+        <label htmlFor='First Interest'>
+          <select
             name='preference1'
             className='prefbox'
             placeholder='Your first interest...'
             id='pref-box-1'
-          />
+          >
+            <option value='1'>One</option>
+            <option value='2'>Two</option>
+            <option value='3'>Three</option>
+            <option value='4'>Four</option>
+            <option value='1'>One</option>
+            <option value='2'>Two</option>
+            <option value='3'>Three</option>
+            <option value='4'>Four</option>
+            <option value='1'>One</option>
+            <option value='2'>Two</option>
+            <option value='3'>Three</option>
+            <option value='4'>Four</option>
+            <option value='1'>One</option>
+            <option value='2'>Two</option>
+            <option value='3'>Three</option>
+            <option value='4'>Four</option>
+            <option value='1'>One</option>
+            <option value='2'>Two</option>
+            <option value='3'>Three</option>
+            <option value='4'>Four</option>
+            <option value='1'>One</option>
+            <option value='2'>Two</option>
+            <option value='3'>Three</option>
+            <option value='4'>Four</option>
+            <option value='1'>One</option>
+            <option value='2'>Two</option>
+            <option value='3'>Three</option>
+            <option value='4'>Four</option>
+            <option value='1'>One</option>
+            <option value='2'>Two</option>
+            <option value='3'>Three</option>
+            <option value='4'>Four</option>
+            <option value='1'>One</option>
+            <option value='2'>Two</option>
+            <option value='3'>Three</option>
+            <option value='4'>Four</option>
+          </select>
+
         </label>
-        <label htmlFor='preference2'>
+        {/* <label htmlFor='preference2'>
           <input
             name='preference2'
             className='prefbox'
@@ -63,7 +99,7 @@ const PrefPage = () => {
             placeholder='Your third interest...'
             id='pref-box-3'
           />
-        </label>
+        </label> */}
         <button className='primary' type='submit'>
           Match Me!
         </button>
@@ -76,9 +112,21 @@ const PrefPage = () => {
           <Profiles key={index} profile={currentState} index={index} />
         ))}
       </div>
-      <Link to='/'>login page</Link>
     </div>
   );
 };
+
+<div>
+    <form>
+      <label htmlFor='First Interest'>
+        <select>
+          <option value='1'>One</option>
+          <option value='2'>Two</option>
+          <option value='3'>Three</option>
+          <option value='4'>Four</option>
+        </select>
+      </label>
+    </form>
+  </div>
 
 export default PrefPage;
