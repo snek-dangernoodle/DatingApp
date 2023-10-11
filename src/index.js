@@ -1,13 +1,11 @@
 import React from 'react';
-import PrefPage from './preference.jsx';
-import './styles.scss';
-import ReactDOM from 'react-dom';
-import { store } from './app/store';
-import { Provider } from 'react-redux';
+import {createRoot} from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App.jsx'
+const root = createRoot(document.getElementById('root'));
 
-ReactDOM.render(
-  <Provider store={store}>
-    <PrefPage />
-  </Provider>,
-  document.getElementById('root')
+root.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 );

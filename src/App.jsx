@@ -1,24 +1,36 @@
 import React from 'react';
-import Login from './components/Login.jsx'
-import "./styles.scss";
-import ReactDOM from "react-dom";
-import { loginStore } from './app/loginStore.js';
+import { Routes, Route } from 'react-router-dom';
+
 import { Provider } from 'react-redux';
-import { createRoot } from 'react-dom/client';
+import { store } from './app/store';
+import { loginStore } from './app/loginStore.js';
+
+import PrefPage from './preference.jsx';
+import Login from './components/Login.jsx';
+
+import styles from './styles.scss'; 
 
 
+export default function App() {
+ return (
+  <div className="App">
+    <main>
+      <Routes>
 
+        <Route path='/' element={
+          <Provider store={store}>
+        <PrefPage />
+        </Provider>
+        }/>
 
-ReactDOM.render(
-  <Provider store={loginStore}>
-    <Login/>
-  </Provider>,
- //this would be the root if login works
-);
+          <Route path='/login' element={
+            <Provider store={loginStore}>
+          <Login />
+          </Provider>
+          }/>
 
-
-
-
-
-
-//store={loginStore}
+      </Routes>
+    </main>
+    </div>
+ )
+}
