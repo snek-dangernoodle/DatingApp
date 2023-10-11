@@ -28,8 +28,7 @@ useEffect(() => {
       } catch (err) {
         console.log('error in fetching interests')
       }
-  };
-  getInterests();
+    };
   }, []);
 
   const handleInterestInputChange = (e) => {
@@ -92,7 +91,7 @@ useEffect(() => {
                 <div key={index} onClick={() => {
                   setInterestInput(`${option.interest}`);
                   let interestList = selectedInterests;
-                  interestList.push({id: option._id, interest: option.interest});
+                  newInterest.push({id: option_.id, interest: option.interest});
                   setSelectedInterests(interestList);
                   setFilteredInterests([]);
                 }}>
