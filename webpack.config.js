@@ -14,13 +14,18 @@ module.exports = {
       publicPath: '/',
     },
     proxy: {
-      '/': {
+      '/home/**': {
         target: 'http://localhost:3000/',
       },
+      '/database/**': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      }
     },
   },
   output: {
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
     filename: 'bundle.js',
   },
   mode: 'development',

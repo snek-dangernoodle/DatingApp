@@ -23,12 +23,19 @@ const databaseRoutes = require('./routes/databaseRoutes');
 
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({extended: true}));
 
 // can use sessionCOntroller.isLoggedIn eventually to check for active session and bypass login with persisted session
 app.use(express.static(path.join(__dirname, 'public')));
 
 //register USER
 app.use('/database', databaseRoutes);
+
+// servers html file
+// app.get('/', (req, res) => {
+//   console.log('test')
+//   res.sendFile(path.resolve(__dirname, '../src/index.html'));
+// });
 
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
