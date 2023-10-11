@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const pool = new Pool({
   connectionString:
-    'postgres://wpfxyyjg:Ysiz0SrjbiiYT-YDm9yArEns6x9RXQG3@peanut.db.elephantsql.com/wpfxyyjg',
+   
 });
 
 app.get('/', (req, res) => {
