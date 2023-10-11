@@ -19,10 +19,14 @@ const PrefPage = () => {
   useEffect(() => {
     async function getInterests() {
       try {
-        const response = await fetch('/database/interests');
+        const response = await fetch('/database/interests', {
+          method: "GET",
+        });
         if (response.status === 200) {
-          const data = response.json();
+          const data = await response.json();
+          console.log(data);
           setInterests(data);
+          console.log('interets:', interests);
         }
       } catch (err) {
         console.log('error in fetching interests');
