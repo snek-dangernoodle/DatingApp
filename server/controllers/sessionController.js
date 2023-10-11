@@ -12,7 +12,7 @@ sessionController.isLoggedIn = async (req, res, next) => {
       res.locals.signedIn = true;
       return next();
     } else {
-      res.redirect(200, '/');
+      res.status(400);
     }
   } catch (error) {
     return next({
@@ -33,7 +33,7 @@ sessionController.startSession = async (req, res, next) => {
       });
       session.save();
       console.log('session is saved');
-      res.cookie('user', `session_for_${id}`)
+      res.cookie('user', `${id}`)
       
       return next();
     } catch (error) {
