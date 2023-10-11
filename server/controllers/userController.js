@@ -47,7 +47,7 @@ exports.loginUser = async (req, res, next) => {
     } else {
       res.locals.hashPass = user.rows[0].password;
       res.locals.user = user.rows[0]._id;
-      console.log('res.locals in loginUser:', res.locals)
+      console.log('res.locals in loginUser:', res.locals);
       return next();
     }
   } catch (error) {
@@ -60,28 +60,30 @@ exports.loginUser = async (req, res, next) => {
   }
 };
 
-
-/** _id | interest
- *    1 | climbing
- *    2 | cards
- *    3 | coding
- * 
- * 
- */
-
-// QUERY SELECT * FROM interests
-// tell frontend to set key value pairs with interest_id = key, interest = value
+exports.getInterests = async (req, res, next) => {
+  try {
+    const interests = await pool.query('SELECT * FROM interests');
+    res.locals.interests = interests.rows;
+    return next();
+  } catch (error) {
+    return next({
+      log: 'Express error handler caught middleware error in userController.getInterests',
+      status: 400,
+      message: { err: 'Error!' },
+    });
+  }
+};
 
 // backend recieves object
 exports.updateInterests = async (req, res, next) => {
   const { personalInterestObject } = req.body;
-  const _id = req.cookie
-  const interestArr = Object.keys(personalInterestObject)
-// {_id: 4, personalInterestObject: {2: a, 3: b, 1: swimming}}
-  // query SELECT * FROM 
+  const _id = req.cookie.user;
+  const interestArr = Object.keys(personalInterestObject);
+  // {_id: 4, personalInterestObject: {2: a, 3: b, 1: swimming}}
+  // query SELECT * FROM
   try {
     await pool.query(
-      'UPDATE users SET interest1 = $1, interest2 = $2, interest3 = $3 WHERE _id = $4' ,
+      'UPDATE users SET interest1 = $1, interest2 = $2, interest3 = $3 WHERE _id = $4',
       [interestArr, _id]
     );
     return next();
@@ -91,12 +93,28 @@ exports.updateInterests = async (req, res, next) => {
       status: 400,
       message: { err: 'Error! Please select 3 interests' },
     });
-  } 
+  }
 };
 
 exports.searchUsers = async (req, res, next) => {
   console.log('searching...');
-  const matches = await pool.query('SELECT username,interest1, interest2, interest3 FROM users WHERE interest1 IN ($1, $2, $3) or interest2 IN ($1, $2, $3) or interest3 IN ($1, $2, $3);', [interestArr])
-  res.locals.matches = matches.rows
+  const matches = await pool.query(
+    'SELECT username,interest1, interest2, interest3 FROM users WHERE interest1 IN ($1, $2, $3) or interest2 IN ($1, $2, $3) or interest3 IN ($1, $2, $3);',
+    [interestArr]
+  );
+  res.locals.matches = matches.rows;
   return next();
+};
+
+exports.getUsers = async (req, res, next) => {
+  try {
+    await pool.query('SELECT * FROM users');
+    return next();
+  } catch (error) {
+    return next({
+      log: `Express error handler caught middleware error in userController.getUsers: ${error}`,
+      status: 400,
+      message: { err: 'Error! Check server logs.' },
+    });
+  }
 };

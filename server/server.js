@@ -7,7 +7,6 @@ const PORT = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-
 console.log(process.env.POSTGRES);
 
 mongoose
@@ -20,15 +19,18 @@ mongoose
   .catch((err) => console.log(err));
 
 const databaseRoutes = require('./routes/databaseRoutes');
+const sessionRouter = require('./routes/sessionRouter');
 
 app.use(express.json());
 app.use(cors());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 // can use sessionOntroller.isLoggedIn eventually to check for active session and bypass login with persisted session
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.get('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../src/index.html'));
+});
 //register USER
+app.use('/verifySession', sessionRouter);
 app.use('/database', databaseRoutes);
 
 app.use((err, req, res, next) => {
