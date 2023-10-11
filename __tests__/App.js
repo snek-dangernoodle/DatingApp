@@ -13,9 +13,8 @@ describe('testing React Components', () => {
       const buttons = screen.getAllByRole('button');
       // console.log(buttons);
       expect(buttons.length).toEqual(2);
-      console.log("buttons: ", buttons)
-      expect(buttons[0]).toHaveClassName('primary');
-      expect(buttons[1]).toHaveClassName('secondary');
+      expect(buttons[0]).toHaveClass('primary');
+      expect(buttons[1]).toHaveClass('secondary');
       expect(screen.getByText('Findr')).toHaveClass('title');
     })
 })

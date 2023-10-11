@@ -145,6 +145,8 @@ app.get('/search', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+module.exports = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
