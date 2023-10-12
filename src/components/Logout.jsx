@@ -2,8 +2,8 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Logout = () => {
+  const navigate = useNavigate()
   const handleLogOut = async (e) => {
-    const navigate = useNavigate()
     try{
       const response = await fetch('/database/logout');
       if (response.status === 200) {

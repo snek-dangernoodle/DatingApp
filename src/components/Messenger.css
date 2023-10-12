@@ -1,0 +1,73 @@
+.Messenger_Main_Container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.Messenger_Navbar {
+    background-color: #0084ff;
+    color: #fff;
+    padding: 10px;
+    margin-top: -15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 60px;
+}
+
+.Messenger_Chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.Messenger_MessageContainer {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+.Message {
+    padding: 8px;
+    margin: 5px;
+    border-radius: 5px;
+    max-width: 70%;
+}
+
+.user {
+    background-color: #0084ff;
+    color: #fff;
+    align-self: flex-end;
+}
+
+.Messenger_MessageInput {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #fff;
+}
+
+#Send_Message {
+    background-color: #0084ff;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.Messenger_MessageInput input {
+    border: 1px solid #0084ff; 
+    padding: 10px;
+    border-radius: 25px;
+    width: 100%; 
+}
+
+.Messenger_Chat {
+    background-color: aliceblue;
+    max-height: 91%;
+}

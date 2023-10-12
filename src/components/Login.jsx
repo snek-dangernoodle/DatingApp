@@ -110,7 +110,8 @@ const Login = () => {
         </div>
         <Link to='/dashboard'>dashboard</Link>
       </div>
-    );
+    </div>
+    )
   }
 
   // login page
@@ -146,7 +147,6 @@ const Login = () => {
           Sign Up
         </button>
       </div>
-      <Link to='/dashboard'>dashboard</Link>
     </div>
   );
 };
