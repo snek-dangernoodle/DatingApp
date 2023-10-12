@@ -103,8 +103,10 @@ const PrefPage = () => {
           'Content-Type': 'application/json',
         },
       });
-      const data = response.json();
+      const data = await response.json();
       setMatches(data)
+      setMatchesClicked(true)
+      console.log(matches)
     } catch (err) {
       console.error('Error during login:', err);
     }
