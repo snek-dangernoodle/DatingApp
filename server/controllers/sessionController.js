@@ -4,7 +4,7 @@ const sessionController = {};
 
 sessionController.isLoggedIn = async (req, res, next) => {
   // cookie in req.cookie
-  const cookie = req.cookie;
+  const cookie = req.cookies.user;
   console.log('cookie:', cookie);
   try {
     const response = await Session.find({ cookieId: `${cookie}` });
