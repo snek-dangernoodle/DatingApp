@@ -8,13 +8,14 @@ import {
 } from '../features/profileState/profileStateSlice';
 
 import Profiles from './profiles.jsx';
+import Interest from './Interest.jsx';
 
 const PrefPage = () => {
+  // sets up the form
   const [interests, setInterests] = useState([]);
-  const [matches, setMatches] = useState(null);
-  const [interestInput, setInterestInput] = useState('');
-  const [selectedInterests, setSelectedInterests] = useState([]);
-  const [filteredInterests, setFilteredInterests] = useState([]);
+  const [interestInputs, setInterestInputs] = useState(['', '', '']);
+  const [filteredInterests, setFilteredInterests] = useState([[], [], []]);
+  const [interestList, setInterestList] = useState([]);
 
   useEffect(() => {
     async function getInterests() {
@@ -24,9 +25,7 @@ const PrefPage = () => {
         });
         if (response.status === 200) {
           const data = await response.json();
-          console.log(data);
           setInterests(data);
-          console.log('interets:', interests);
         }
       } catch (err) {
         console.log('error in fetching interests');
@@ -35,39 +34,68 @@ const PrefPage = () => {
     getInterests();
   }, []);
 
-  const handleInterestInputChange = (e) => {
+
+  const handleInterestInputChange = (e, index) => {
     const value = e.target.value;
-    setInterestInput(value);
-    filterInterestOptions(value);
+    const newInterestInputs = [...interestInputs];
+    newInterestInputs[index] = value;
+    setInterestInputs(newInterestInputs);
+    filterInterestOptions(value, index);
   };
 
-  const filterInterestOptions = (value) => {
+  const filterInterestOptions = (value, index) => {
     const filtered = interests
-      .filter((interest) => {
-        interest.interest.toLowerCase().include(value.toLowerCase());
-      })
+      .filter((interest) => interest.interest.toLowerCase().includes(value.toLowerCase()))
       .slice(0, 10);
-    setFilteredInterests(filtered);
+
+    setFilteredInterests((prevFilteredInterests) => {
+      const newFilteredInterests = [...prevFilteredInterests];
+      newFilteredInterests[index] = filtered;
+      return newFilteredInterests;
+    });
   };
-  //Grabbing the state and setting up dispatch
-  const currentState = useSelector((state) => state.profileState.value);
-  const dispatch = useDispatch();
+
+  const handleInterestClick = (option, index) => {
+    setInterestInputs((prevInputs) => {
+      const newInputs = [...prevInputs];
+      newInputs[index] = option.interest;
+      return newInputs;
+    });
+    setInterestList([...interestList, option])
+    // let interestList = (...selectedInterest, option._id: option.interest);
+    // setSelectedInterests(interestList);
+    setFilteredInterests([[], [], []]);
+
+  };
+
+  // function to create the data to send to the interest to the backend
+  const matchInterestDB = (interestDB) => {
+    const newInterestInputs = [...interestInputs]
+    const interests = {}
+    while (newInterestInputs.length > 0) {
+      for (let i=0;i<interestDB.length;i++) {
+        const interest = interestDB[i].interest
+        const id = interestDB[i].interest_id
+        if (newInterestInputs.includes(interest)) {
+          const index = newInterestInputs.indexOf(interest)
+          interests[id] = interest
+          newInterestInputs.splice(index, 1)
+        };
+      };
+    };
+    return interests;
+  }
 
   // saves user preferences into database
   const submitPreference = async (e) => {
     //Prevents refresh
     e.preventDefault();
-
-    // interests from drop down here***
-
-    // formating information to pass into the body
-    const userInterest = {};
-
-    // updates the user's preferences
+    // // updates the user's preferences
+    const userInterests = matchInterestDB(interests)
     try {
       const response = await fetch('/database/update', {
         method: 'POST',
-        body: JSON.stringify(userInterest),
+        body: JSON.stringify({personalInterestObject: userInterests}),
         headers: {
           'Content-Type': 'application/json',
         },
@@ -85,45 +113,33 @@ const PrefPage = () => {
         Choose up to three interests:
       </div>
       <br />
-      <form autoComplete='off' className='submit-form'>
-        <input
-          className='input'
-          id='interest input'
-          type='text'
-          placeholder='First Interest'
-          value={interestInput}
-          onChange={handleInterestInputChange}
-        />
-        {filteredInterests.length > 0 && (
-          <div className='autocomplete-items'>
-            {filteredInterests.map((option, index) => (
-              <div
-                key={index}
-                onClick={() => {
-                  setInterestInput(`${option.interest}`);
-                  let interestList = selectedInterests;
-                  interestList.push({
-                    id: option._id,
-                    interest: option.interest,
-                  });
-                  setSelectedInterests(interestList);
-                  setFilteredInterests([]);
-                }}
-              >
-                {`${option.interest}`}
-              </div>
-            ))}
-          </div>
-        )}
-      </form>
+      <Interest 
+        number='First' 
+        filteredInterests={filteredInterests[0]} 
+        interestInput={interestInputs[0]} 
+        handleChange={(e) => {handleInterestInputChange(e, 0)}}
+        handleUserClick={(option) => {handleInterestClick(option, 0)}}
+        filterInterestFunc={(value) => filterInterestOptions(value, 0)}
+      /> 
+      <Interest 
+        number='Second' 
+        filteredInterests={filteredInterests[1]} 
+        interestInput={interestInputs[1]} 
+        handleChange={(e) => {handleInterestInputChange(e, 1)}}
+        handleUserClick={(option) => {handleInterestClick(option, 1)}}
+        filterInterestFunc={(value) => filterInterestOptions(value, 1)}
+      /> 
+      <Interest 
+        number='Third' 
+        filteredInterests={filteredInterests[2]} 
+        interestInput={interestInputs[2]} 
+        handleChange={(e) => {handleInterestInputChange(e, 2)}}
+        handleUserClick={(option) => {handleInterestClick(option, 2)}}
+        filterInterestFunc={(value) => filterInterestOptions(value, 2)}
+      /> 
       <button className='secondary' type='button' onClick={submitPreference}>
         Show me my potential matches
       </button>
-      <div className='profile-main-container'>
-        {currentState.map((profile, index) => (
-          <Profiles key={index} profile={currentState} index={index} />
-        ))}
-      </div>
     </div>
   );
 };
