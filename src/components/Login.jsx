@@ -111,7 +111,7 @@ const Login = () => {
             <p className='passwordMatch'>Username or password is incorrect</p>
           )}
         </form>
-        <button className='primary' onClick={() => {setAuth('signup')}}>Sign Up</button> 
+        <button type='button' className='primary' onClick={() => {setAuth('signup')}}>Sign Up</button> 
       </div>
       <Link to='/dashboard'>dashboard</Link>
     </div>

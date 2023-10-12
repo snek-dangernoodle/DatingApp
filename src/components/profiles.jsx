@@ -1,12 +1,15 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
-const Profiles = (props) => {
+
+const Profiles = ({ index, name, interests }) => {
+  const history = useHistory();
   return (
-    <div className='profile-box'>
-      <p>Name: {props.profile[props.index].username}</p>
-      <p>Shared interests: {props.profile[props.index].interest}</p>
-      <p id='connect'><u>DM ME!</u></p>
-    </div>
+    <article className='profile-box'>
+      <p>Name: {name}</p>
+      <p>Shared interests: {interests.join(', ')}</p>
+      <button type='button' id='connect' onClick={() => {history.push('/messenger')}}><u>DM ME!</u></button>
+    </article>
   );
 };
 export default Profiles;

@@ -7,6 +7,7 @@ import { loginStore } from './app/loginStore.js';
 
 import PrefPage from './components/preference.jsx';
 import Login from './components/Login.jsx';
+import Messenger from './components/Messenger.jsx'
 
 import styles from './styles.scss'; 
 
@@ -17,13 +18,9 @@ export default function App() {
     <main>
       <Routes>
 
-        <Route path='/dashboard' element={
-          <Provider store={store}>
-            <PrefPage />
-          </Provider>
-        }/>
-
+        <Route path='/dashboard' element={<PrefPage />}/>
         <Route path='/' element={<Login />}/>
+        <Route path='/messenger' element={<Messenger />}/>
       </Routes>
     </main>
     </div>

@@ -9,6 +9,7 @@ import {
 
 import Profiles from './profiles.jsx';
 import Interest from './Interest.jsx';
+import { TRUE } from 'sass';
 
 const PrefPage = () => {
   // sets up the form
@@ -16,6 +17,8 @@ const PrefPage = () => {
   const [interestInputs, setInterestInputs] = useState(['', '', '']);
   const [filteredInterests, setFilteredInterests] = useState([[], [], []]);
   const [interestList, setInterestList] = useState([]);
+  const [matches, setMatches] = useState([]);
+  const [matchesClicked, setMatchesClicked] = useState(false);
 
   useEffect(() => {
     async function getInterests() {
@@ -92,6 +95,7 @@ const PrefPage = () => {
     e.preventDefault();
     // // updates the user's preferences
     const userInterests = matchInterestDB(interests)
+    console.log(userInterests)
     try {
       const response = await fetch('/database/update', {
         method: 'POST',
@@ -100,10 +104,30 @@ const PrefPage = () => {
           'Content-Type': 'application/json',
         },
       });
+      const data = response.json();
+      setMatches(data)
     } catch (err) {
       console.error('Error during login:', err);
     }
   };
+
+  if (matchesClicked) {
+    return (
+      <div className='profile-main-container'>
+        <div className='title'>Your Matches</div>
+        <button className='secondary' type='button' onClick={() => {setMatchesClicked(false)}}>
+          Find New Matches
+        </button>
+        {matches.map((profile, index) => (
+          <Profiles 
+          name={profile.username} 
+          interests={[profile.interest1, profile.interest2, profile.interest3]} 
+          index={index} 
+          />
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className='pref-container'>
