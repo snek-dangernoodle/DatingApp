@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 const PORT = process.env.PORT || 3000;
 
@@ -23,6 +24,7 @@ const sessionRouter = require('./routes/sessionRouter');
 
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 // can use sessionOntroller.isLoggedIn eventually to check for active session and bypass login with persisted session

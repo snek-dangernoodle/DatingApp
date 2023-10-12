@@ -77,7 +77,7 @@ exports.getInterests = async (req, res, next) => {
 // backend recieves object
 exports.updateInterests = async (req, res, next) => {
   const { personalInterestObject } = req.body;
-  const _id = req.cookie.user;
+  const _id = req.cookies.user;
   const interestArr = Object.keys(personalInterestObject);
   // {_id: 4, personalInterestObject: {2: a, 3: b, 1: swimming}}
   // query SELECT * FROM
