@@ -128,58 +128,91 @@ const PrefPage = () => {
 
   if (matchesClicked) {
     return (
-      <div>
+      <div id='matchesDiv'>
         <div className='profile-main-container'>
           <div className='title'>Your Matches</div>
-          {matches.map((profile, index) => (
-            <Profiles 
-            name={profile.username} 
-            interests={[profile.interest1, profile.interest2, profile.interest3]} 
-            index={index} 
-            />
-          ))}
-        </div>
-      <button className='secondary' type='button' onClick={() => {setMatchesClicked(false)}}>
+          <button
+            className='secondary'
+            id='matchesButton'
+            type='button'
+            onClick={() => {
+              setMatchesClicked(false);
+            }}
+          >
             Find New Matches
           </button>
+          <span id='matchesSpan'>
+            {matches.map((profile, index) => (
+              <Profiles
+                name={profile.username}
+                interests={[
+                  profile.interest1,
+                  profile.interest2,
+                  profile.interest3,
+                ]}
+                index={index}
+              />
+            ))}
+          </span>
+        </div>
+
         <Logout />
       </div>
-    )
+    );
   }
 
   return (
     <div className='pref-container'>
-      <div className='title'>Findr</div>
+      <div className='title' id='mainLogo'>
+        Findr
+      </div>
       <div className='quote'>
         <div>Whatchu want in your potential shawty?</div>
         Choose up to three interests:
       </div>
       <br />
-      <Interest 
-        number='First' 
-        filteredInterests={filteredInterests[0]} 
-        interestInput={interestInputs[0]} 
-        handleChange={(e) => {handleInterestInputChange(e, 0)}}
-        handleUserClick={(option) => {handleInterestClick(option, 0)}}
+      <Interest
+        number='First'
+        filteredInterests={filteredInterests[0]}
+        interestInput={interestInputs[0]}
+        handleChange={(e) => {
+          handleInterestInputChange(e, 0);
+        }}
+        handleUserClick={(option) => {
+          handleInterestClick(option, 0);
+        }}
         filterInterestFunc={(value) => filterInterestOptions(value, 0)}
-      /> 
-      <Interest 
-        number='Second' 
-        filteredInterests={filteredInterests[1]} 
-        interestInput={interestInputs[1]} 
-        handleChange={(e) => {handleInterestInputChange(e, 1)}}
-        handleUserClick={(option) => {handleInterestClick(option, 1)}}
+      />
+      <Interest
+        number='Second'
+        filteredInterests={filteredInterests[1]}
+        interestInput={interestInputs[1]}
+        handleChange={(e) => {
+          handleInterestInputChange(e, 1);
+        }}
+        handleUserClick={(option) => {
+          handleInterestClick(option, 1);
+        }}
         filterInterestFunc={(value) => filterInterestOptions(value, 1)}
-      /> 
-      <Interest 
-        number='Third' 
-        filteredInterests={filteredInterests[2]} 
-        interestInput={interestInputs[2]} 
-        handleChange={(e) => {handleInterestInputChange(e, 2)}}
-        handleUserClick={(option) => {handleInterestClick(option, 2)}}
+      />
+      <Interest
+        number='Third'
+        filteredInterests={filteredInterests[2]}
+        interestInput={interestInputs[2]}
+        handleChange={(e) => {
+          handleInterestInputChange(e, 2);
+        }}
+        handleUserClick={(option) => {
+          handleInterestClick(option, 2);
+        }}
         filterInterestFunc={(value) => filterInterestOptions(value, 2)}
-      /> 
-      <button className='secondary' type='button' onClick={submitPreference}>
+      />
+      <button
+        className='secondary'
+        type='button'
+        id='dashShowMe'
+        onClick={submitPreference}
+      >
         Show me my potential matches
       </button>
       <Logout />

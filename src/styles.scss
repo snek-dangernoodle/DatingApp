@@ -18,7 +18,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: linen;
+  background-color: rgba(250, 240, 230, 0.801);
   height: 92vh;
   box-shadow: 1px 1px 11px black;
   opacity: 0.93;
@@ -34,6 +34,10 @@ body {
   // margin-bottom: 35px;
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
+  display: inline-flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
 }
 
 .quote {
@@ -42,7 +46,9 @@ body {
   border: 2px solid #d75c77;
   font-family: 'Montserrat', sans-serif;
   padding: 20px;
-  font-size: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.84);
   box-shadow: 1px 1px 1px #d75c77;
   border-radius: 10px;
   // margin-bottom: 35px;
@@ -60,20 +66,21 @@ body {
   display: flex;
   justify-content: left;
   flex-flow: row wrap;
-  margin-left: 165px;
+  margin-left: 2%;
   // margin-top: 10px;
   // margin-bottom: 20px;
 }
 
 .profile-box {
   flex: 0 0 calc(25% - 14px);
-  margin-right: 7 px;
+  margin: 0.4%;
   border: 2px solid #ea9daa;
   background: #f6d5da;
   border-radius: 10px;
   padding: 20px;
   text-align: center;
   font-family: 'Montserrat', sans-serif;
+  box-shadow: 2px 2px 4px #9c626c;
 }
 button {
   align-items: center;
@@ -97,4 +104,86 @@ button:hover {
 
 .passwordMatch {
   color: red;
+}
+.Login-container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+}
+.Login-container,
+h1 {
+  text-align: center;
+}
+
+#matchesSpan {
+  display: inline-flex;
+  flex-wrap: wrap;
+  margin: 0.5%;
+}
+
+#matchesDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.secondary {
+  font-size: 2rem;
+  box-shadow: 2px 2px 4px #9c626c;
+}
+#logout {
+  font-size: 1.4rem;
+  box-shadow: 2px 2px 4px #9c626c;
+}
+.input {
+  margin: 0.8%;
+}
+
+.autocomplete-items {
+  border: 1px solid rgba(0, 0, 0, 0.049);
+  border-radius: 5px;
+  position: absolute;
+  left: 55.5%;
+  top: 24.6%;
+  width: 8%;
+}
+
+#dashShowMe {
+  margin-top: 9.5%;
+}
+
+#dashItems {
+  border-bottom: 1px solid rgb(156, 156, 156);
+  border-left: 1px solid rgb(156, 156, 156);
+  border-right: 1px solid rgb(156, 156, 156);
+  padding-bottom: 2px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px #9c626c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#dashItems:hover {
+  background-color: #ea9daa;
+  color: white;
+}
+
+#mainLogo {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 4rem;
+  color: #ea9daa;
+  font-weight: 600;
+  font-style: italic;
+  -webkit-text-stroke: 2px red;
+  text-shadow: 2px 2px 2px black;
+}
+
+#matchesButton {
+  margin-left: 10%;
+  font-size: 1.4rem;
+  margin-bottom: 1%;
+}
+
+input {
+  margin-bottom: 5px;
 }
