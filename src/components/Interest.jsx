@@ -9,9 +9,9 @@ const Interest = ({ number,
     handleUserClick
 }) => {
     return (
-        <form autoComplete='off' className='submit-form'>
+        <form autoComplete='off' className='submit-form' id='dashForm'>
         <input
-          className='input'
+          className='inputDash'
           id={number}
           type='text'
           placeholder={`${number} Interest`}
@@ -21,7 +21,7 @@ const Interest = ({ number,
         {filteredInterests.length > 0 && (
           <div className='autocomplete-items'>
             {filteredInterests.map((option, index) => (
-              <div key={index} onClick={() => {handleUserClick(option)}}>
+              <div key={index} id='dashItems' onClick={() => {handleUserClick(option)}}>
                 {`${option.interest}`}
               </div>
             ))}
