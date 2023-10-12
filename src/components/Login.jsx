@@ -89,7 +89,6 @@ const Login = () => {
         </form>
         <button className='primary' onClick={() => {setAuth('login')}}>Back to Login</button> 
       </div>
-      <Link to='/dashboard'>dashboard</Link>
     </div>
     )
   }
@@ -113,7 +112,6 @@ const Login = () => {
         </form>
         <button type='button' className='primary' onClick={() => {setAuth('signup')}}>Sign Up</button> 
       </div>
-      <Link to='/dashboard'>dashboard</Link>
     </div>
   );
 };

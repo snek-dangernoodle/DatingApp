@@ -47,7 +47,7 @@ router.get(
   }
 );
 
-router.post(
+router.get(
   '/logout',
   sessionController.isLoggedIn,
   sessionController.endSession,
