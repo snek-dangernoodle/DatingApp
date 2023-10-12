@@ -104,9 +104,8 @@ const PrefPage = () => {
         },
       });
       const data = await response.json();
-      setMatches(data)
-      setMatchesClicked(true)
-      console.log(matches)
+      setMatches(data);
+      setMatchesClicked(true);
     } catch (err) {
       console.error('Error during login:', err);
     }
