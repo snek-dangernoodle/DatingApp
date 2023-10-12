@@ -46,4 +46,14 @@ router.get(
     res.status(200).json({ message: 'Search Successful!' });
   }
 );
+
+router.post(
+  '/logout',
+  sessionController.isLoggedIn,
+  sessionController.endSession,
+  (req, res) => {
+    res.status(200).json({ message: 'User Logged Out!' });
+  }
+);
+
 module.exports = router;
