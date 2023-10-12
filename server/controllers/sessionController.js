@@ -5,6 +5,7 @@ const sessionController = {};
 sessionController.isLoggedIn = async (req, res, next) => {
   // cookie in req.cookie
   const cookie = req.cookies.user;
+  res.locals.id = cookie;
   console.log('sessioncontroller is logged in');
   try {
     const response = await Session.find({ cookieId: `${cookie}` });
@@ -52,5 +53,18 @@ sessionController.startSession = async (req, res, next) => {
   }
     
 };
+
+sessionController.endSession = async (req, res, next) => {
+  try {
+    await Session.deleteOne({ cookieId: res.locals.id})
+    return next();
+  } catch (error) {
+    return next({
+      log: `Express error handler caught middleware error in sessionController.endSession. Error: ${error}`,
+      status: 500,
+      message: { err: 'Failed request: failed to end session' },
+    });
+  }
+}
 
 module.exports = sessionController;
