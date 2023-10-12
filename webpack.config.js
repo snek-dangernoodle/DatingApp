@@ -20,6 +20,10 @@ module.exports = {
       '/database/**': {
         target: 'http://localhost:3000/',
         secure: false,
+      },
+      '/verifySession/**': {
+        target: 'http://localhost:3000/',
+        secure: false,
       }
     },
   },
