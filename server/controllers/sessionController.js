@@ -8,7 +8,7 @@ sessionController.isLoggedIn = async (req, res, next) => {
   console.log('sessioncontroller is logged in');
   try {
     const response = await Session.find({ cookieId: `${cookie}` });
-    if (response.length) {
+    if (response.length > 0) {
       res.locals.signedIn = true;
       return next();
     } else {
