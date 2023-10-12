@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Profiles = ({ index, name, interests }) => {
   const navigate = useNavigate();
+  
   return (
     <article className='profile-box'>
       <p>Name: {name}</p>

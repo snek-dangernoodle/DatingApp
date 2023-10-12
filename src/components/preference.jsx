@@ -9,6 +9,7 @@ import {
 
 import Profiles from './profiles.jsx';
 import Interest from './Interest.jsx';
+import Logout from './Logout.jsx';
 import { TRUE } from 'sass';
 
 const PrefPage = () => {
@@ -104,8 +105,22 @@ const PrefPage = () => {
         },
       });
       const data = await response.json();
+      let interestObj = {}; // {1: 'interset 1', 2: 'interest 2',};
+      interests.forEach((element) => {
+        interestObj[element.interest_id] = element.interest;
+      })
+
+      data.forEach((object) => {
+          object.interest1 = interestObj[object.interest1]
+          object.interest2 = interestObj[object.interest2]
+          object.interest3 = interestObj[object.interest3]
+      });
+      
+      // console.log('interest obj: ', interestObj)
       setMatches(data);
       setMatchesClicked(true);
+      // console.log(matches)
+      // [{username: , interest1: 2, interest2, itnerest3},{},{}]
     } catch (err) {
       console.error('Error during login:', err);
     }
@@ -113,18 +128,21 @@ const PrefPage = () => {
 
   if (matchesClicked) {
     return (
-      <div className='profile-main-container'>
-        <div className='title'>Your Matches</div>
-        <button className='secondary' type='button' onClick={() => {setMatchesClicked(false)}}>
-          Find New Matches
-        </button>
-        {matches.map((profile, index) => (
-          <Profiles 
-          name={profile.username} 
-          interests={[profile.interest1, profile.interest2, profile.interest3]} 
-          index={index} 
-          />
-        ))}
+      <div>
+        <div className='profile-main-container'>
+          <div className='title'>Your Matches</div>
+          {matches.map((profile, index) => (
+            <Profiles 
+            name={profile.username} 
+            interests={[profile.interest1, profile.interest2, profile.interest3]} 
+            index={index} 
+            />
+          ))}
+        </div>
+      <button className='secondary' type='button' onClick={() => {setMatchesClicked(false)}}>
+            Find New Matches
+          </button>
+        <Logout />
       </div>
     )
   }
@@ -164,6 +182,7 @@ const PrefPage = () => {
       <button className='secondary' type='button' onClick={submitPreference}>
         Show me my potential matches
       </button>
+      <Logout />
     </div>
   );
 };
