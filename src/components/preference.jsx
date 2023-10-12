@@ -71,14 +71,14 @@ const PrefPage = () => {
   // function to create the data to send to the interest to the backend
   const matchInterestDB = (interestDB) => {
     const newInterestInputs = [...interestInputs]
-    const interests = {}
+    const interests = []
     while (newInterestInputs.length > 0) {
       for (let i=0;i<interestDB.length;i++) {
         const interest = interestDB[i].interest
         const id = interestDB[i].interest_id
         if (newInterestInputs.includes(interest)) {
           const index = newInterestInputs.indexOf(interest)
-          interests[id] = interest
+          interests.push(id);
           newInterestInputs.splice(index, 1)
         };
       };
@@ -92,10 +92,11 @@ const PrefPage = () => {
     e.preventDefault();
     // // updates the user's preferences
     const userInterests = matchInterestDB(interests)
+    console.log('interestArr:', userInterests)
     try {
       const response = await fetch('/database/update', {
         method: 'POST',
-        body: JSON.stringify({personalInterestObject: userInterests}),
+        body: JSON.stringify({interestArr: userInterests}),
         headers: {
           'Content-Type': 'application/json',
         },

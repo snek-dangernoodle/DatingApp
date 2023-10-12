@@ -76,16 +76,17 @@ exports.getInterests = async (req, res, next) => {
 
 // backend recieves object
 exports.updateInterests = async (req, res, next) => {
-  const { personalInterestObject } = req.body;
+  const { interestArr } = req.body;
   const _id = req.cookies.user;
-  const interestArr = Object.keys(personalInterestObject);
-  // {_id: 4, personalInterestObject: {2: a, 3: b, 1: swimming}}
   // query SELECT * FROM
+  console.log('in update interests');
   try {
+    console.log(interestArr);
     await pool.query(
       'UPDATE users SET interest1 = $1, interest2 = $2, interest3 = $3 WHERE _id = $4',
-      [interestArr, _id]
+      [...interestArr, _id]
     );
+    res.locals.interestArr = interestArr;
     return next();
   } catch (error) {
     return next({
@@ -97,11 +98,15 @@ exports.updateInterests = async (req, res, next) => {
 };
 
 exports.searchUsers = async (req, res, next) => {
+  const { interestArr } = req.body;
+  const _id = req.cookies.user;
   console.log('searching...');
+  console.log('interest Arr in searchUsers', interestArr);
   const matches = await pool.query(
-    'SELECT username,interest1, interest2, interest3 FROM users WHERE interest1 IN ($1, $2, $3) or interest2 IN ($1, $2, $3) or interest3 IN ($1, $2, $3);',
-    [interestArr]
+    'SELECT username,interest1, interest2, interest3 FROM users WHERE _id <> $4 AND (interest1 IN ($1, $2, $3) or interest2 IN ($1, $2, $3) or interest3 IN ($1, $2, $3));',
+    [...interestArr, _id]
   );
+  console.log(matches.rows);
   res.locals.matches = matches.rows;
   return next();
 };
