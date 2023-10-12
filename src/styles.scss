@@ -1,6 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Trocchi&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Trocchi&display=swap');
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap');
 
 body {
   // border: 5px solid green;
@@ -19,9 +19,9 @@ body {
   flex-direction: column;
   align-items: center;
   background-color: linen;
-  height: 105vh;
+  height: 92vh;
   box-shadow: 1px 1px 11px black;
-  opacity: .93;
+  opacity: 0.93;
   // background-image: url('https://static.vecteezy.com/system/resources/previews/002/700/749/original/glowing-neon-line-online-dating-app-and-chat-icon-isolated-on-brick-wall-background-international-happy-women-day-illustration-vector.jpg');
   // background-size: cover;
 }
@@ -32,7 +32,7 @@ body {
   // border-color: red;
   font-size: 100px;
   // margin-bottom: 35px;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-weight: 800;
 }
 
@@ -40,7 +40,7 @@ body {
   background-color: #fdf3f4;
   border-width: 15px;
   border: 2px solid #d75c77;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   padding: 20px;
   font-size: 15px;
   box-shadow: 1px 1px 1px #d75c77;
@@ -70,10 +70,10 @@ body {
   margin-right: 7 px;
   border: 2px solid #ea9daa;
   background: #f6d5da;
-  border-radius: 10px; 
+  border-radius: 10px;
   padding: 20px;
   text-align: center;
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 button {
   align-items: center;
@@ -90,8 +90,8 @@ button:hover {
   color: white;
 }
 
-#connect{
-  color:blue;
+#connect {
+  color: blue;
   font-weight: 100;
 }
 
